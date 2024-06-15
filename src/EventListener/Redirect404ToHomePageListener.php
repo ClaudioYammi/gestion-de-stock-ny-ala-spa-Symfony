@@ -1,12 +1,13 @@
 <?php
 namespace App\EventListener;
 
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\Routing\RouterInterface;
 
-class Redirect404ToHomePageListener
+class Redirect404ToHomePageListener extends AbstractController
 {
     private $router;
 
@@ -27,6 +28,7 @@ class Redirect404ToHomePageListener
 
         // Si l'URL de la page précédente n'est pas définie ou est vide, redirigez vers la page d'accueil
         if ($previousUrl === null || $previousUrl === '') {
+            $this->addFlash('error_404', 'La page n\'existe pas ou est inaccessible');
             $previousUrl = $this->router->generate('app_home');
         } else {
             // Vérifiez si l'URL de la page précédente est la même que l'URL actuelle pour éviter une redirection infinie
