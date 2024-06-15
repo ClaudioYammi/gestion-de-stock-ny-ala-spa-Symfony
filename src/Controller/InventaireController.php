@@ -29,33 +29,45 @@ class InventaireController extends AbstractController
     #[Route('/new', name: 'app_inventaire_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
-    // Récupération de tous les produits pour remplir le champ "Référence"
-    $produits = $entityManager->getRepository(Produit::class)->findAll();
+        // Récupération de tous les produits pour remplir le champ "Référence"
+        $produits = $entityManager->getRepository(Produit::class)->findAll();
+
         // Traitement de la requête POST pour créer un nouvel inventaire
         if ($request->isMethod('POST')) {
-            $inventaire = new Inventaire();
-
             // Récupération de la date actuelle avec le fuseau horaire +3
             $updateAt = new \DateTimeImmutable('now', new \DateTimeZone('+03:00'));
-            
-            $inventaire
-            ->setUpdateAt($updateAt)
-            ->setNote($request->request->get('note'))
-            ->setStockinventaire($request->request->get('stockinventaire'))
-            ->setStockutiliser($request->request->get('stockutiliser'));
 
-            // Récupération du produit de référence à partir de l'ID envoyé dans le formulaire
-            $reference = $entityManager->getRepository(Produit::class)->find($request->request->get('reference'));
+            // Récupération des données des lignes du formulaire
+            $notes = $request->get('note');
+            $stocksInventaire = $request->get('stockinventaire');
+            $stocksUtiliser = $request->get('stockutiliser');
+            $references = $request->get('reference');
+
+            // Itération sur chaque ligne du formulaire
+            for ($i = 0; $i < count($notes); $i++) {
+                $inventaire = new Inventaire();
+
+                $inventaire
+                    ->setUpdateAt($updateAt)
+                    ->setNote($notes[$i])
+                    ->setStockinventaire($stocksInventaire[$i])
+                    ->setStockutiliser($stocksUtiliser[$i]);
+
+                // Récupération du produit de référence à partir de l'ID envoyé dans le formulaire
+                $reference = $entityManager->getRepository(Produit::class)->find($references[$i]);
                 $inventaire->setReference($reference);
-                
+
                 // Sauvegarde de l'inventaire dans la base de données
-            $entityManager->persist($inventaire);
+                $entityManager->persist($inventaire);
+            }
+
+            // Exécution de toutes les insertions en une seule transaction
             $entityManager->flush();
 
             // Redirection vers la liste des inventaires
             return $this->redirectToRoute('app_inventaire_index');
         }
-        
+
         $updateAt = new \DateTimeImmutable('now', new \DateTimeZone('+03:00'));
         // Rendu du template avec la liste des produits et la date de mise à jour
         return $this->render('inventaire/nouveau.html.twig', [

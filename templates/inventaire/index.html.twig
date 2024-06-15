@@ -6,9 +6,9 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Produit</th>
                 <th>Date inventaire</th>
-                <th>Note</th>
+                <th>Produit</th>
+                <th>Stock actuel</th>
                 <th>Stockinventaire</th>
                 <th>Produit en utilisation</th>
                 <th>Ecart</th>
@@ -18,16 +18,28 @@
         <tbody>
         {% for inventaire in inventaires %}
             <tr>
+                <td>
+                    {{ inventaire.updateAt ? inventaire.updateAt|date('Y-m-d') : '' }}
+                    <small class="text-muted">
+                        {{ inventaire.updateAt ? inventaire.updateAt|date('H:i:s') : '' }}
+                    </small>
+                </td>
                 <td>{{ inventaire.reference.designation }}</td>
-                <td>{{ inventaire.updateAt ? inventaire.updateAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ inventaire.note }}</td>
+                <td>{{ inventaire.reference.quantite }}</td>
                 <td>{{ inventaire.stockinventaire }}</td>
                 <td>{{ inventaire.stockutiliser }}</td>
-                <td>{{ inventaire.calculerEcart() }}</td>
+                <td class="{% if inventaire.calculerEcart() < 0 %} 
+                                bg-danger text-white
+                            {% elseif inventaire.calculerEcart() > 0 %}
+                                bg-primary text-white
+                            {% endif %}">
+                    {{ inventaire.calculerEcart() }}
+                </td>
                 <td>
                     <div class="d-flex align-items-center">
                         <a href="{{ path('app_inventaire_show', {'id': inventaire.id}) }}" class="btn btn-primary btn-success btn-sm" ><i class="fas fa-fw fa-eye"></i></a>
                         <a href="{{ path('app_inventaire_edit', {'id': inventaire.id}) }}" class="btn btn-primary btn-warning btn-sm mx-2"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                    {{ include('inventaire/_delete_form.html.twig') }}
                     </div>
                 </td>
             </tr>

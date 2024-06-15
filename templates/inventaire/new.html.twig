@@ -3,7 +3,16 @@
 {% block title %}New Inventaire{% endblock %}
 
 {% block table %}
+{% include '_alert/_new.html.twig' %}
+
     {{ include('inventaire/_form.html.twig') }}
 
-    <a href="{{ path('app_inventaire_index') }}">back to list</a>
+{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_inventaire_index') }}" class="btn btn-dark btn-sm"><i class="fas fa-fw fa-arrow-left mr-2"></i>Retour</a>
+{% endblock %}
+
+{% block widget_droite %}
+
 {% endblock %}
