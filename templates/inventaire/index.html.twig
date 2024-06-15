@@ -3,7 +3,7 @@
 {% block title %}Inventaire index{% endblock %}
 
 {% block body %}
-    <table class="table">
+    <table class="table  table-hover">
         <thead>
             <tr>
                 <th>Date inventaire</th>
@@ -50,6 +50,19 @@
         {% endfor %}
         </tbody>
     </table>
+{% endblock %}
 
-    <a href="{{ path('app_inventaire_new') }}">Create new</a>
+{% block widget %}
+    <a href="{{ path('app_inventaire_new') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-user-plus"></i> Nouveau
+    </a>
+{% endblock %}
+
+{% block widget_droite %}
+<a href="{{ path('app_inventaire_list') }} " class="d-none d-sm-inline-block btn btn-sm btn-danger">
+    <i class="fas fa-file-pdf"></i> Exporter la liste
+</a>
+<a href="{{ path('export_inventaires') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+    <i class="far fa-file-excel mr-1"></i> Exporter en XLS
+</a>
 {% endblock %}

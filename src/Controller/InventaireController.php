@@ -14,9 +14,26 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use DateTimeZone;
 
+use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+
+use Knp\Snappy\Pdf;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
 #[Route('/inventaire')]
 class InventaireController extends AbstractController
 {
+    private $knpSnappyPdf;
+    
+
+    public function __construct( Pdf $knpSnappyPdf)
+    {
+        
+        $this->knpSnappyPdf = $knpSnappyPdf;
+    }
+
     #[Route('/', name: 'app_inventaire_index', methods: ['GET'])]
     public function index(InventaireRepository $inventaireRepository
     ): Response
@@ -36,6 +53,7 @@ class InventaireController extends AbstractController
         if ($request->isMethod('POST')) {
             // Récupération de la date actuelle avec le fuseau horaire +3
             $updateAt = new \DateTimeImmutable('now', new \DateTimeZone('+03:00'));
+            $selectedProducts = [];
 
             // Récupération des données des lignes du formulaire
             $notes = $request->get('note');
@@ -43,10 +61,32 @@ class InventaireController extends AbstractController
             $stocksUtiliser = $request->get('stockutiliser');
             $references = $request->get('reference');
 
+            // Vérification des duplications de produits
+            $selectedReferences = [];
+            for ($i = 0; $i < count($references); $i++) {
+                if (in_array($references[$i], $selectedReferences)) {
+                    $this->addFlash('alert_new_achat', 'Le produit avec la référence ' . $references[$i] . ' est sélectionné plusieurs fois.');
+                    return $this->render('inventaire/nouveau.html.twig', [
+                        'produits' => $produits,
+                        'updateAt' => $updateAt->format('Y-m-d\TH:i:s'),
+                    ]);
+                }
+
+                // Vérification que les stocks ne sont pas négatifs
+                if ($stocksInventaire[$i] < 0 || $stocksUtiliser[$i] < 0) {
+                    $this->addFlash('alert_new_achat', 'Les stocks ne peuvent pas être négatifs.');
+                    return $this->render('inventaire/nouveau.html.twig', [
+                        'produits' => $produits,
+                        'updateAt' => $updateAt->format('Y-m-d\TH:i:s'),
+                    ]);
+                }
+                $selectedReferences[] = $references[$i];
+            }
+
             // Itération sur chaque ligne du formulaire
             for ($i = 0; $i < count($notes); $i++) {
                 $inventaire = new Inventaire();
-
+                
                 $inventaire
                     ->setUpdateAt($updateAt)
                     ->setNote($notes[$i])
@@ -63,7 +103,7 @@ class InventaireController extends AbstractController
 
             // Exécution de toutes les insertions en une seule transaction
             $entityManager->flush();
-
+            $this->addFlash('success', 'Inventaire a été effectuer avec succès.');
             // Redirection vers la liste des inventaires
             return $this->redirectToRoute('app_inventaire_index');
         }
@@ -111,5 +151,82 @@ class InventaireController extends AbstractController
         }
 
         return $this->redirectToRoute('app_inventaire_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/export', name: 'export_inventaires', methods: ['GET'])]
+    public function exportInventaires(InventaireRepository $inventaireRepository)
+    {
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+    
+        // Récupérez les inventaires de la base de données
+        $inventaires = $inventaireRepository->findAll();
+    
+        // Définissez les titres des colonnes
+        $sheet->setCellValue('A1', 'Date inventaire');
+        $sheet->setCellValue('B1', 'Nom');
+        $sheet->setCellValue('C1', 'Stock inventaire');
+        $sheet->setCellValue('D1', 'Stock utiliser');
+        $sheet->setCellValue('E1', 'Ecart');
+    
+        // Écrivez les données dans la feuille de calcul
+        $row = 2; // Start data from row 2 (after headers)
+        foreach ($inventaires as $inventaire) {
+            $sheet->setCellValue('A' . $row, $inventaire->getUpdateAt());
+            $sheet->setCellValue('B' . $row, $inventaire->getreference()->getdesignation());
+            $sheet->setCellValue('C' . $row, $inventaire->getstockinventaire());
+            $sheet->setCellValue('D' . $row, $inventaire->getstockutiliser());
+            $sheet->setCellValue('E' . $row, $inventaire->calculerEcart());
+            $row++;
+        }
+    
+        // Créez un écrivain et écrivez la feuille de calcul dans un fichier temporaire
+        $writer = new Xlsx($spreadsheet);
+        $temp_file = tempnam(sys_get_temp_dir(), 'inventaires');
+        $writer->save($temp_file);
+    
+        // Retournez le fichier en tant que téléchargement
+        return $this->file($temp_file, 'inventaires.xlsx', ResponseHeaderBag::DISPOSITION_INLINE);
+    }
+
+    #[Route('/listpdf', name: 'app_inventaire_list', methods: ['GET'])]
+    public function listPdf(InventaireRepository $inventaireRepository,Request $request): Response
+    {
+        $inventaire = $inventaireRepository->findAll();
+
+        // Créer un objet DateTime pour la date actuelle
+        $dateTime = new \DateTime();
+
+        // Ajouter 3 heures au fuseau horaire actuel
+        $dateTime->modify('+3 hours');
+        
+        // Formater la date selon vos besoins
+        $formattedDateTime = $dateTime->format('Y-m-d H:i:s');
+
+        $html = $this->renderView('inventaire/pdf.html.twig', [
+            'inventaires' => $inventaire,
+            'currentDateTime' => $formattedDateTime // Passer la date formatée à la vue Twig
+            
+        ]);
+
+        $filename = sprintf('AeroSTOCK-inventaire.pdf');
+        $pdfPath = $this->getParameter('kernel.project_dir') . '/public/pdf/inventaire/' . $filename;
+
+        // Vérifier si le fichier existe déjà
+        if (file_exists($pdfPath)) {
+            // Supprimer le fichier existant
+            unlink($pdfPath);
+        }
+
+        $this->knpSnappyPdf->generateFromHtml($html, $pdfPath);
+
+        $response = new BinaryFileResponse($pdfPath);
+        $response->setContentDisposition(
+            $request->query->get('download') ? 'attachment' : 'inline',
+            $filename
+        );
+        $response->headers->set('Content-Type', 'application/pdf');
+
+        return $response;
     }
 }

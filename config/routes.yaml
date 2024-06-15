@@ -23,6 +23,10 @@ export_ventes:
     path: /export_ventes
     controller: App\Controller\VenteController::exportVentes
 
+export_inventaires:
+    path: /export_inventaires
+    controller: App\Controller\InventaireController::exportInventaires
+
 export_categories:
     path: /export_categories
     controller: App\Controller\CategorieController::exportCategories
@@ -85,6 +89,10 @@ app_produit_list:
 app_client_list:
     path: /listpdfclient
     controller: App\Controller\ClientController::listPdf
+
+app_inventaire_list:
+    path: /listpdfinventaire
+    controller: App\Controller\InventaireController::listPdf
 
 
 
