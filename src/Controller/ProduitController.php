@@ -124,11 +124,17 @@ class ProduitController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager->persist($produit);
-            $entityManager->flush();
+            $imageFile = $produit->getImageFile();
 
-            $this->addFlash('success', 'Produit a été créer avec succès.');
-            return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+            if ($imageFile && $imageFile->getSize() > 5 * 1024 * 1024) { // 5MB in bytes
+                $this->addFlash('error_image', 'L\'image ne doit pas dépasser 5 MB.');
+            } else {
+                $entityManager->persist($produit);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Produit a été créé avec succès.');
+                return $this->redirectToRoute('app_produit_index', [], Response::HTTP_SEE_OTHER);
+            }
         }
 
         return $this->render('produit/new.html.twig', [

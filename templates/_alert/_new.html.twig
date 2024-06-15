@@ -19,3 +19,11 @@
             <button type="button" class="close" data-dismiss="alert" >&times;</button>
         </div>
     {% endfor %}
+{% for message in app.flashes('error_image') %}
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        <strong>Erreur!</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+{% endfor %}
