@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fiche produit</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            text-align: center; /* Centrer tout le texte */
+        }
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+        }
+        .product-image {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        .product-image img {
+            max-width: 200px;
+            border: 5px solid #3a3b54;
+        }
+        h4, h1 {
+            margin: 0 0 20px 0;
+        }
+        h1 {
+            font-size: 24px;
+            color: #333;
+        }
+        p {
+            font-size: 18px;
+            line-height: 1.6;
+        }
+        .product-details {
+            margin-bottom: 20px;
+        }
+        .product-details p {
+            margin: 5px 0;
+        }
+        .product-details p strong {
+            display: inline-block; /* Pour que les étiquettes soient également centrées */
+            min-width: 150px; /* Largeur minimale pour aligner les étiquettes */
+            text-align: left; /* Alignement à gauche des étiquettes */
+        }
+        .footer {
+            margin-top: 30px;
+            font-size: 14px;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h4>Fiche produit</h4>
+        <h1>Fiche produit {{ produit.designation }}</h1>
+        <div class="product-image">
+            <img src="{{ absolute_url(vich_uploader_asset(produit, 'imageFile')) }}" alt="Produit Image">
+        </div>
+        <div class="product-details">
+            <p><strong>Désignation :</strong> {{ produit.designation }}</p>
+            <p><strong>Prix unitaire :</strong> {{ produit.prixunitaire|number_format(2, ',', ' ') }} Ariary</p>
+            <p><strong>Description :</strong> {{ produit.description }}</p>
+            <p><strong>Date d'expiration :</strong> {{ produit.dateexp|date('Y-m-d H:i:s') }}</p>
+            <p><strong>Catégorie :</strong> {{ produit.idCategorie.nom }}</p>
+            <p><strong>Emplacement :</strong> {{ produit.emplacement.nom }}</p>
+            <!-- Ajoutez ici d'autres détails sur le produit que vous souhaitez inclure dans la facture -->
+        </div>
+        <div class="footer">
+            © 2024 Ny Ala Spa. Tous droits réservés.
+        </div>
+    </div>
+</body>
+</html>

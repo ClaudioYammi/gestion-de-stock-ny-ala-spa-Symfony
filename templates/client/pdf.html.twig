@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Liste des clients</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1, p {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%; /* Largeur augmentée à 90% */
+            margin: 0 auto;
+            border-collapse: collapse;
+            background-color: #fff;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+        thead {
+            background-color: #007BFF;
+            color: #fff;
+        }
+        tbody tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+        tbody tr:hover {
+            background-color: #f1f1f1;
+        }
+        th {
+            background-color: #007BFF;
+            color: white;
+            text-transform: uppercase;
+        }
+        td {
+            border-bottom: 1px solid #ddd;
+        }
+        footer {
+            background-color: #f2f2f2; /* Gris très clair */
+            color: #333333; /* Gris foncé */
+            text-align: center;
+            padding: 10px 0;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Liste des client</h1>
+        <p>Date d'éxporation : {{ currentDateTime|date('Y-m-d H:i:s') }} </p>
+    <table>
+        <thead>
+            <tr>
+                <th>Nom</th>
+                <th>Prenom</th>
+                <th>Adresse</th>
+                <th>Email</th>
+                <th>telephone</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+                <tr>
+                    <td>{{ client.nom }}</td>
+                    <td>{{ client.prenom }}</td>
+                    <td>{{ client.adresse }}</td>
+                    <td>{{ client.email }} </td>
+                    <td>{{ client.telephone}} </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <br>
+    <br>
+
+    <footer>
+        <p>Ambohijatovo Ivandry, Lot II J 161 DF 1, à Antananarivo 101 | Téléphone: 038 55 263 74 | nyalaspamdg@gmail.com </p>
+        <p>RCS Antananarivo 2012 B 00717</p>
+    </footer>
+</body>
+</html>

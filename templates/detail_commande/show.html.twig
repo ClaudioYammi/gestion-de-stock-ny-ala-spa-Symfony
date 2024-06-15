@@ -1,0 +1,22 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DetailCommande{% endblock %}
+
+{% block body %}
+    <h1>DetailCommande</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ detail_commande.id }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_detail_commande_index') }}">back to list</a>
+
+    <a href="{{ path('app_detail_commande_edit', {'id': detail_commande.id}) }}">edit</a>
+
+    {{ include('detail_commande/_delete_form.html.twig') }}
+{% endblock %}

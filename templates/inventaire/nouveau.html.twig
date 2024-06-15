@@ -1,0 +1,43 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}Edit Produit{% endblock %}
+
+{% block table %}
+
+            <div class="row m-3">
+        <form id="inventaire-form" method="post" action="/inventaire/new" class="row g-3">
+        <div class="col-md-2">
+        <label for="update_at">Date de mise à jour</label>
+        <input type="datetime-local" class="form-control" id="update_at" name="update_at" value="{{ updateAt }}" required>
+        </div>
+        <div class="col-md-2">
+        <label for="note">Note</label>
+        <input type="text" class="form-control" id="note" name="note" required>
+        </div>
+        <div class="col-md-2">
+        <label for="stockinventaire">Stock inventaire</label>
+        <input type="number" class="form-control" id="stockinventaire" name="stockinventaire" required>
+        </div>
+        <div class="col-md-2">
+        <label for="reference">Référence</label>
+        <select class="form-select" id="reference" name="reference" required>
+        <option value="">Sélectionnez un produit</option>
+            {% for produit in produits %}
+                <option value="{{ produit.id }}">{{ produit.designation }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="col-md-2">
+        <label for="stockutiliser">Stock utilisé</label>
+            <input type="number" class="form-control" id="stockutiliser" name="stockutiliser" required>
+        </div>
+        <div class="col-12">
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+        </form>
+
+        </div>
+
+        
+
+{% endblock %}

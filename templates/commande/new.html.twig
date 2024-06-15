@@ -1,0 +1,20 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}Commande{% endblock %}
+
+
+{% block table %}
+{% include '_alert/_new.html.twig' %}
+
+    {{ include('commande/_form.html.twig') }}
+
+{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_commande_index') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-arrow-left"></i> Retour
+    </a>
+{% endblock %}
+
+{% block widget_droite %}
+{% endblock %}

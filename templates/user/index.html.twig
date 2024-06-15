@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}User index{% endblock %}
+{% block widget_droite %}
+   <a href="{{ path('export_users') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+        <i class="far fa-file-excel mr-1"></i> Exporter en XLS
+    </a>
+{% endblock %}
+{% block body %}
+    <table class="table  table-hover">
+        <thead>
+            <tr>
+                <th>Email</th>
+                <th>Roles</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for user in pagination %}
+            <tr>
+                <td>{{ user.email }}</td>
+                <td>
+                    {% for role in user.roles %}
+                        {% if role == 'ROLE_USER' %}
+                            <button class="btn btn-primary btn-sm">Utilisateur</button>
+                        {% elseif role == 'ROLE_ADMIN' %}
+                            <button class="btn btn-danger btn-sm">Administrateur</button>
+                        {% elseif role == 'ROLE_EDIT' %}
+                            <button class="btn btn-success btn-sm">Editeur</button>
+                        {% endif %}
+                    {% endfor %}
+                </td>
+                <td>
+                    {{ include('user/_delete_form.html.twig') }}
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- Ajouter la pagination -->
+    <div class="pagination pagination-sm">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_register') }}" class="btn btn-primary btn-sm" >
+        <i class="fas fa-user-plus"></i> Nouveau
+    </a>
+{% endblock %}

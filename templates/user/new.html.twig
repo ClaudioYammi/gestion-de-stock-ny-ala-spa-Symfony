@@ -1,0 +1,14 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}New User{% endblock %}
+
+{% block table %}
+
+    {{ include('user/_form.html.twig') }}
+
+{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_user_index') }}" class="btn btn-dark btn-sm"><i class="fas fa-fw fa-arrow-left mr-2"></i>Retour</a>
+{% endblock %}
+

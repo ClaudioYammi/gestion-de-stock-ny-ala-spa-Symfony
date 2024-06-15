@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Produit{% endblock %}
+
+{% block widget_droite %}
+   
+{% endblock %}
+
+{% block body %}
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Designation</th>
+                <td>{{ produit.designation }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ produit.description }}</td>
+            </tr>
+            <tr>
+                <th>Categorie</th>
+                <td>{{ produit.idCategorie.nom }}</td>
+            </tr>
+            <tr>
+                <th>Prixunitaire</th>
+                <td>{{ produit.prixunitaire }} Ariary</td>
+            </tr>
+            <tr>
+                <th>Dateexp</th>
+                <td>{{ produit.dateexp ? produit.dateexp|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Capacite</th>
+                <td>{{ produit.capaciter }} {{ produit.unite }}</td>
+            </tr>
+            <tr>
+                <th>Emplacement</th>
+                <td>{{ produit.emplacement.nom }}</td>
+            </tr>
+        </tbody>
+    </table>
+    <div class="row">
+        <div class="col">
+            <a href="{{ path('app_produit_edit', {'id': produit.id}) }}" class="btn btn-success btn-sm">Modifier</a>
+            <a href="{{ path('app_produit_index') }}" class="btn btn-dark btn-sm"><i class="fas fa-fw fa-arrow-left mr-1"></i>Retour</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block widget %}
+<div class="row">
+    <div class="col">
+    </div>
+    <div class="col">
+        {{ include('produit/_delete_form.html.twig') }}
+    </div>
+</div>
+{% endblock %}

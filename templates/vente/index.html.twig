@@ -1,0 +1,60 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+{% include '_alert/_message.html.twig' %}
+
+        <table class="table  table-hover">
+            <thead>
+                <tr>
+                    <th>Nofacture</th>
+                    <th>Datevente</th>
+                    <th>Total</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for vente in ventes %}
+                <tr><td>
+                    <button class="btn btn-secondary btn-sm">{{ vente.numfacture }}</button>
+                    </td>
+                    <td>
+                        {{ vente.datevente ? vente.datevente|date('Y-m-d') : '' }}
+                        
+                        <small class="text-muted">
+                            {{ vente.datevente ? vente.datevente|date('H:i:s') : '' }}
+                        </small>
+                    </td>
+                    <td>{{ vente.soustotal()|number_format(2, ',', ' ') }} Ar</td>
+                    <td>
+                        <div class="d-flex align-items-center">
+                            {{ include('vente/_delete_form.html.twig') }}
+                            <a href="{{ path('app_vente_show', {'id': vente.id}) }}"class="btn btn-primary btn-success btn-sm mx-2"><i class="fas fa-fw fa-eye"></i></a>
+                            <a href="{{ path('app_vente_pdf', {'id': vente.id}) }} " class="d-none d-sm-inline-block btn btn-sm btn-secondary ">
+                                <i class="fas fa-file-invoice"></i>
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">Bonjour Maitre</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+{% endblock %}
+
+
+
+{% block widget %}
+    <a href="{{ path('app_vente_new') }}" class="btn btn-primary btn-sm"><i class="fas fa-user-plus"></i>Nouveau</a>
+{% endblock %}
+
+{% block widget_droite %}
+    <a href="{{ path('app_vente_list') }} " class="d-none d-sm-inline-block btn btn-sm btn-danger">
+        <i class="fas fa-file-pdf"></i> Exporter la liste
+    </a>
+    <a href="{{ path('export_ventes') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+        <i class="far fa-file-excel mr-1"></i> Exporter en XLS
+    </a>
+{% endblock %}

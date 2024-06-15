@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Fournisseur index{% endblock %}
+
+{% block body %}
+{% include '_alert/_message.html.twig' %}
+
+    <table class="table  table-hover">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nom</th>
+                <th>Email</th>
+                <th>Adresse</th>
+                <th>Telephone</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for fournisseur in pagination %}
+            <tr>
+                <td>{{ fournisseur.id }}</td>
+                <td>{{ fournisseur.nom }}</td>
+                <td>{{ fournisseur.email }}</td>
+                <td>{{ fournisseur.adresse }}</td>
+                <td>{{ fournisseur.telephone }}</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        <a href="{{ path('app_fournisseur_show', {'id': fournisseur.id}) }}"  class="btn btn-primary btn-success btn-sm" ><i class="fas fa-fw fa-eye"></i></a>
+                        <a href="{{ path('app_fournisseur_edit', {'id': fournisseur.id}) }}"  class="btn btn-primary btn-warning btn-sm mx-2"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                        {# <a href="{{ path('inventaire_new', {'id': fournisseur.id}) }}"  class="btn btn-primary btn-warning btn-sm mx-2"><i class="fas fa-fw fa-pencil-alt"></i></a> #}
+                        {{ include('fournisseur/_delete_form.html.twig') }}    
+                    </div> 
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="6">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+    <!-- Ajouter la pagination -->
+    <div class="pagination pagination-sm">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_fournisseur_new') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-user-plus"></i> Nouveau
+    </a>
+{% endblock %}

@@ -1,0 +1,177 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste Produit{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_produit_new') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-user-plus"></i> Nouveau
+    </a>
+    
+{% endblock %}
+
+{% block widget_droite %}
+    <a href="{{ path('app_produit_list') }} " class="d-none d-sm-inline-block btn btn-sm btn-danger">
+    <i class="fas fa-file-pdf"></i> Exporter la liste
+</a>
+    <a href="{{ path('export_produits') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+        <i class="far fa-file-excel mr-1"></i> Exporter en XLS
+    </a>
+{% endblock %}
+
+{% block search %}{% endblock %}
+
+
+{% block body %}
+    <form method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+        <div class="d-flex flex-wrap align-items-center"> <!-- Ajout de la classe "align-items-center" pour centrer verticalement les éléments -->
+            <a class="btn btn-warning btn-sm mr-2 mb-2" href="{{ path('app_produit_index') }}">
+                <i class="fas fa-sync-alt"></i>
+            </a>
+            {% for attribute in allowedAttributes %}
+            <div class="input-group mr-2 mb-2 input-group-sm"> <!-- Ajout des classes "mr-2" et "mb-2" pour espacer les éléments -->
+                <input type="text" class="form-control form-control-sm" aria-label="Search" aria-describedby="basic-addon2" 
+                placeholder="Pour {{ attribute }}" id="{{ attribute }}" name="{{ attribute }}" value="{{ searchCriteria[attribute] ?? '' }}">
+                <div class="input-group-append mr-4">
+                    <button class="btn btn-primary btn-sm" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </form>
+{% include '_alert/_message.html.twig' %}
+
+    <table class="table">
+        <thead>
+            <thead>
+                <tr>
+                    <th scope="col">
+                        Pic
+                    </th> 
+                    <th scope="col">
+                        <a href="{{ path('app_produit_index', {'sort': 'designation', 'order': (order == 'asc' ? 'desc' : 'asc')}) }}">
+                            Nom du produit
+                            <i class="fas fa-sort"></i>
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="{{ path('app_produit_index', {'sort': 'emplacement', 'order': (order == 'asc' ? 'desc' : 'asc')}) }}">
+                            Emplacement
+                            <i class="fas fa-sort"></i>
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="{{ path('app_produit_index', {'sort': 'emplacement', 'order': (order == 'asc' ? 'desc' : 'asc')}) }}">
+                            Categorie
+                            <i class="fas fa-sort"></i>
+                        </a>
+                    </th>
+                    <th scope="col">
+                        <a href="{{ path('app_produit_index', {'sort': 'quantite', 'order': (order == 'asc' ? 'desc' : 'asc')}) }}">
+                            Prix unitaire
+                            <i class="fas fa-sort"></i>
+                        </a>
+                    </th>
+                    <th scope="col">
+                            Quantité stock
+                    </th>
+                    {# <th>Dateexp</th> #}
+                    
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+        </thead>
+        <tbody>
+        {% for produit in pagination %}
+            <tr>
+                <td>
+                    {% if produit.imageName %}
+                        <a href="#" data-toggle="modal" data-target="#imageModal{{ produit.id }}">
+                            <img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="Produit Image" class="img-fluid img-thumbnail img-circle" style="max-width: 40px;">
+                        </a>
+                    {% else %}
+                        <span>Aucune image disponible</span>
+                    {% endif %}
+                </td>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="imageModal{{ produit.id }}" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="imageModalLabel">Image du produit</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <img src="{{ vich_uploader_asset(produit, 'imageFile') }}" alt="Produit Image" class="img-fluid">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+                <td>{{ produit.designation }}</td>
+                <td>{{ produit.emplacement.nom }}</td>
+                <td>{{ produit.idCategorie.nom }}</td>
+                <td>
+                    <button class="btn btn-outline-secondary btn-sm">
+                        {{ produit.prixunitaire }} Ariary
+                    </button>
+                </td>
+                <td>
+                    {% if produit.quantite > produit.qttemin %}
+                        <button class="btn btn-success btn-sm">{{ produit.quantite }}</button>
+                    {% elseif produit.quantite < produit.qttemin %}
+                        <button class="btn btn-danger btn-sm">{{ produit.quantite }} - Insuffisant</button>
+                    {% else %}
+                        {{ produit.quantite }} - Stock critique
+                    {% endif %}
+                </td>
+                
+                <td>
+                    <div class="d-flex align-items-center">
+                        <a href="{{ path('app_produit_show', {'id': produit.id}) }}"  class="btn btn-primary btn-success btn-sm" ><i class="fas fa-fw fa-eye"></i></a>
+                        <a href="{{ path('app_produit_edit', {'id': produit.id}) }}"  class="btn btn-primary btn-warning btn-sm mx-2"><i class="fas fa-fw fa-pencil-alt"></i></a>
+                        {# <a href="{{ path('inventaire_new', {'id': produit.id}) }}"  class="btn btn-primary btn-warning btn-sm mx-2"><i class="fas fa-fw fa-pencil-alt"></i></a> #}
+                        {{ include('produit/_delete_form.html.twig') }}
+                        <a href="{{ path('app_produit_generate_pdf', {'id': produit.id}) }} " class="d-none d-sm-inline-block btn btn-sm btn-secondary ml-2">
+                            <i class="fas fa-file-pdf"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+                        
+        </tbody>
+    </table>
+    <!-- Ajouter la pagination -->
+    <div class="pagination pagination-sm">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+<script>
+    function fillInventaireForm(designation, id) {
+        var referenceInput = document.getElementsByName("inventaire[reference]")[0];
+        referenceInput.value = designation;
+        
+        // Autres champs à remplir avec les détails du produit
+        // ...
+    }
+    $(document).ready(function() {
+    $('#stockinventaireInput, #stockutiliserInput').on('input', function() {
+        var stockinventaire = parseInt($('#stockinventaireInput').val()) || 0;
+        var stockutiliser = parseInt($('#stockutiliserInput').val()) || 0;
+        var ecart = stockinventaire + stockutiliser;
+        $('#ecartInput').val(ecart);
+    });
+});
+</script>
+{% endblock %}
+
+
+

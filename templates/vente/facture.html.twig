@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Facture</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #ffffff; /* Blanc */
+            color: #333333; /* Gris foncé */
+        }
+
+        h1 {
+            text-align: right;
+            color: #333333; /* Gris foncé */
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: #ffffff; /* Blanc */
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid #cccccc; /* Gris clair */
+        }
+
+        th {
+            background-color: #cccccc; /* Gris clair */
+            color: #333333; /* Gris foncé */
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2; /* Gris très clair */
+        }
+
+        .total {
+            font-weight: bold;
+            text-align: right;
+        }
+
+        .summary-table th, .summary-table td {
+            border-bottom: none;
+        }
+
+        .summary-table th {
+            text-align: right;
+        }
+
+        .summary-table td {
+            text-align: right;
+            font-weight: bold;
+        }
+
+        footer {
+            background-color: #f2f2f2; /* Gris très clair */
+            color: #333333; /* Gris foncé */
+            text-align: center;
+            padding: 10px 0;
+            margin-top: 20px;
+        }
+
+        header {
+            color: #333333; /* Gris foncé */
+            padding: 10px 20px; /* Ajout de rembourrage pour l'espace autour du contenu */
+            margin-bottom: 20px;
+            display: flex; /* Utilisation de flexbox pour le positionnement */
+            justify-content: space-between; /* Alignement des éléments vers les extrémités */
+            align-items: center; /* Alignement vertical au centre */
+        }
+
+        .header-left {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+
+        .header-right {
+            text-align: right;
+        }
+
+        p {
+            margin: 0; /* Suppression de la marge par défaut pour éviter les espaces supplémentaires */
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <img src="{{ absolute_url(asset('imgentreprise/logo.png')) }}" alt="Logo" style="max-width: 200px;">
+        </div>
+        <div class="header-right">
+            <h1>Ny Ala Spa</h1>
+            <p>Facturer à {{ vente.idClient.nom }}</p>
+            <p>{{ "now"|date('Y-m-d H:i:s') }}</p>
+        </div>
+    </header>
+
+    <table>
+        <tr>
+            <th>Transaction</th>
+            <td>Vente</td>
+        </tr>
+        <tr>
+            <th>N° Facture</th>
+            <td>{{ vente.numfacture }}</td>
+        </tr>
+        <tr>
+            <th>Date de vente</th>
+            <td>{{ vente.datevente|date('Y-m-d H:i:s') }}</td>
+        </tr>
+        <tr>
+            <th>Client</th>
+            <td>{{ vente.idClient.nom }}</td>
+        </tr>
+    </table>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Produit</th>
+                <th>Quantité</th>
+                <th>Prix unitaire</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for detail in vente.detailVentes %}
+            <tr>
+                <td>{{ detail.reference.designation }}</td>
+                <td>{{ detail.quantite }}</td>
+                <td>{{ detail.prixunitaire|number_format(2, ',', ' ') }} Ar</td>
+                <td>{{ (detail.prixunitaire * detail.quantite)|number_format(2, ',', ' ') }} Ar</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <table class="summary-table">
+        <tr>
+            <th>Sous-total</th>
+            <td>{{ vente.soustotal|number_format(2, ',', ' ') }} Ar</td>
+        </tr>
+        <tr>
+            <th>Taux de TVA</th>
+            <td>{{ vente.tva|number_format(2, ',', ' ') }} %</td>
+        </tr>
+        <tr>
+            <th>Montant de la TVA</th>
+            <td>{{ (vente.soustotal * vente.tva / 100)|number_format(2, ',', ' ') }} Ar</td>
+        </tr>
+        <tr>
+            <th>Remise</th>
+            <td>{{ vente.remise|number_format(2, ',', ' ') }} %</td>
+        </tr>
+        <tr>
+            <th>Total à payer</th>
+            <td>{{ vente.total|number_format(2, ',', ' ') }} Ar</td>
+        </tr>
+    </table>
+    
+
+    <footer>
+        <p>Ambohijatovo Ivandry, Lot II J 161 DF 1, à Antananarivo 101 | Téléphone: 038 55 263 74 | nyalaspamdg@gmail.com </p>
+        <p>RCS Antananarivo 2012 B 00717</p>
+    </footer>
+</body>
+</html>

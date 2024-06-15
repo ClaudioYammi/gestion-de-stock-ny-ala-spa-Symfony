@@ -1,0 +1,16 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}Nouveau Produit{% endblock %}
+
+{% block table %}
+    {{ include('produit/_form.html.twig') }}
+
+{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_produit_index') }}" class="btn btn-success btn-sm"><i class="fas fa-fw fa-arrow-left mr-2"></i>Retour</a>
+{% endblock %}
+
+{% block widget_droite %}
+
+{% endblock %}

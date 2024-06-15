@@ -4,14 +4,32 @@ security:
         Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface: 'auto'
     # https://symfony.com/doc/current/security.html#loading-the-user-the-user-provider
     providers:
-        users_in_memory: { memory: null }
+        # used to reload user from session & other features (e.g. switch_user)
+        app_user_provider:
+            entity:
+                class: App\Entity\User
+                property: email
+        # used to reload user from session & other features (e.g. switch_user)
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
         main:
             lazy: true
-            provider: users_in_memory
+            provider: app_user_provider
+            custom_authenticator: App\Security\LoginAuthenticator
+            logout:
+                path: app_logout
+                # where to redirect after logout
+                target: app_login
+
+            remember_me:
+                secret: '%kernel.secret%'
+                lifetime: 604800
+                path: /
+                # by default, the feature is enabled by checking a checkbox in the
+                # login form, uncomment the following line to always enable it.
+                #always_remember_me: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#the-firewall
@@ -22,8 +40,33 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        # - { path: ^/admin, roles: ROLE_ADMIN }
-        # - { path: ^/profile, roles: ROLE_USER }
+    #     - { path: ^/home, roles: [ROLE_ADMIN, ROLE_USER, ROLE_EDITOR]  }
+    #     - { path: ^/fournisseur, roles: [ROLE_ADMIN, ROLE_USER, ROLE_EDITOR]  }
+    #     - { path: ^/produit, roles: [ROLE_ADMIN, ROLE_USER, ROLE_EDITOR]  }
+    #     - { path: ^/ville, roles: [ROLE_ADMIN, ROLE_USER, ROLE_EDITOR]  }
+    #     - { path: ^/emplacement, roles: ROLE_ADMIN  }
+
+    # # role administrateir
+    #     - { path: ^/admin, roles: ROLE_ADMIN  }
+    #     - { path: ^/user, roles: ROLE_ADMIN  }
+    #     - { path: ^/profil, roles: ROLE_ADMIN  }
+
+    # # role caissière
+    #     - { path: ^/achat, roles: [ROLE_ADMIN, ROLE_USER]  }
+    #     - { path: ^/detail/achat, roles: [ROLE_ADMIN, ROLE_USER]  }
+    #     - { path: ^/vente, roles: [ROLE_ADMIN, ROLE_USER]  }
+    #     - { path: ^/detail/vente, roles: [ROLE_ADMIN, ROLE_USER]  }
+    #     - { path: ^/inventaire, roles: [ROLE_ADMIN, ROLE_USER]  }
+    #     - { path: ^/detail/inventaire, roles: [ROLE_ADMIN, ROLE_USER]  }
+    #     - { path: ^/commande, roles: [ROLE_ADMIN, ROLE_USER]  }
+    #     - { path: ^/detail/commande, roles: [ROLE_ADMIN, ROLE_USER]  }
+
+    # role gestionnaire de stock
+        # - { path: ^/inventaire, roles: ROLE_USER }
+        # - { path: ^/produit, roles: [ROLE_ADMIN, ROLE_USER] }
+        # - { path: ^/user, roles: [ROLE_ADMIN, ROLE_USER]  }
+        # - { path: ^/home, roles: [ROLE_ADMIN, ROLE_USER]  }
+        # - { path: ^/home, roles: [ROLE_ADMIN, ROLE_USER]  }
 
 when@test:
     security:

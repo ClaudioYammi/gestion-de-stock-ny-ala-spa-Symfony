@@ -1,0 +1,38 @@
+{{ form_start(form) }}
+    <div class="row m-3">
+        <div class="col-4">
+            <label>Nom Client</label>
+            {{ form_widget(form.nom) }}
+            {{ form_errors(form.nom) }}
+        </div>
+        <div class="col-4">
+            <label>Prenom</label>
+            {{ form_widget(form.prenom) }}
+            {{ form_errors(form.prenom) }}
+        </div>
+        <div class="col-4">
+            <label>Adresse</label>
+            {{ form_widget(form.adresse) }}
+            {{ form_errors(form.adresse) }}
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col">
+            <label>Email</label>
+            {{ form_widget(form.email) }}
+            {{ form_errors(form.email) }}
+        </div>
+        <div class="col">
+            <label>Téléphone</label>
+            {{ form_widget(form.telephone) }}
+            {{ form_errors(form.telephone) }}
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col">
+            <button class="btn btn-primary btn-sm "><i class="fas fa-fw fa-save mr-1"></i>
+                {{ button_label|default('Enregistrer') }}
+            </button>
+        </div>
+    </div>
+{{ form_end(form) }}

@@ -1,0 +1,67 @@
+{{ form_start(form) }}
+<div id="content">
+    <div class="row m-3">
+        <div class="col-md-3">
+            {{ form_label(form.dateachat) }}
+            {{ form_widget(form.dateachat) }}
+        </div>
+        <div class="col-md-3">
+            {{ form_label(form.idFournisseur) }}
+            {{ form_widget(form.idFournisseur) }}
+        </div>
+        
+    </div>
+    <div class="row m-4">
+        <table class="col-9" >
+            <thead>
+                <tr>
+                    <th>Produit</th>
+                    <th>Quantite</th>
+                    <th>Prix Unitaire</th>
+                    <th>act</th>
+                </tr>
+            </thead>
+            <tbody id="tbody">
+
+            </tbody>
+        </table>
+        <div class="col-3">
+        <div class="row ">
+            <div class="col-md-5">
+                <label for="form_tva">TVA</label>
+            <div class="input-group "> 
+                {{ form_widget(form.Tva) }}
+                <div class="input-group-append">
+                    <span class="input-group-text">%</span>
+                </div>
+            </div>
+            </div>
+            <div class="col-md-5">
+                <label for="form_remise">Remise</label>
+                <div class="input-group ">
+                    {{ form_widget(form.Remise) }}
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <label>Total (Ariary)</label>
+            <div  id="prixtotal">
+                <h4><span id="total-value">0</span></h4>
+            </div>
+        <div>
+    </div>  
+    <div class="row">
+        <div class="col">
+            <button id="add" class="btn btn-primary btn-sm" >Ajouter une ligne</button>
+            <a class="dropdown-item " data-bs-toggle="modal" data-bs-target="#achatModal" >
+                <button class="btn btn-success btn-sm " data-bs-toggle="modal" data-bs-target="#achatModal" >{{ button_label|default('Enregistrer') }}</button>
+            </a>
+            {% include 'achat/_new_form.html.twig' %}
+        </div>
+    </div>
+    </div>
+{{ form_end(form) }}
+<script src="{{ asset('js/achat.js') }}"></script>
+

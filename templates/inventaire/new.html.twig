@@ -1,0 +1,9 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}New Inventaire{% endblock %}
+
+{% block table %}
+    {{ include('inventaire/_form.html.twig') }}
+
+    <a href="{{ path('app_inventaire_index') }}">back to list</a>
+{% endblock %}

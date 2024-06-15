@@ -1,0 +1,21 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}Edit Achat{% endblock %}
+
+{% block widget_droite %}
+    {{ include('achat/_delete_form.html.twig') }}
+{% endblock %}
+
+{% block table %}
+    {{ include('achat/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+{% endblock %}
+
+{% block widget %}
+    <div class="row">
+        <div class="col-12">
+            <div class="d-flex align-items-center">
+                <a href="{{ path('app_achat_index') }}" class="btn btn-dark btn-sm"><i class="fas fa-fw fa-arrow-left mr-2"></i>Retour</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

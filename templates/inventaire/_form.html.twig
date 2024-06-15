@@ -1,0 +1,36 @@
+{{ form_start(form) }}
+    <div class="row m-3">
+        <div class="col-2">
+            <label>Image du produit</label>
+                {{ form_widget(form.update_at) }}
+                {{ form_errors(form.update_at) }}
+        </div>
+        <div class="col-2">
+            <label>Désignation</label>
+                {{ form_widget(form.note) }}
+                {{ form_errors(form.note) }}
+        </div>
+        <div class="col-4">
+            <label>Description</label>
+                {{ form_widget(form.reference) }}
+                {{ form_errors(form.reference) }}
+        </div>
+        <div class="col-2">
+            <label>Capaciter</label>
+                {{ form_widget(form.stockutiliser) }}
+                {{ form_errors(form.stockutiliser) }}
+        </div>
+        <div class="col-2">
+            <label>Capaciter</label>
+                {{ form_widget(form.stockinventaire) }}
+                {{ form_errors(form.stockinventaire) }}
+        </div>
+    </div>
+    <div class="row m-3">
+        <div class="col">
+            <button class="btn btn-primary btn-sm "><i class="fas fa-fw fa-save mr-1"></i>
+                {{ button_label|default('Enregistrer') }}
+            </button>
+        </div>
+    </div>
+{{ form_end(form) }}

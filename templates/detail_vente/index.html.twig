@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}DetailVente index{% endblock %}
+
+{% block body %}
+    <h1>DetailVente index</h1>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>NoVente</th>
+                    <th>Produit</th>
+                    <th>Quantite</th>
+                    <th>Prix Unitaire</th>
+                    <th>actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for detail_vente in detail_ventes %}
+                <tr>
+                    <td>{{ detail_vente.idvente.id }}</td>
+                    <td>{{ detail_vente.reference.designation }}</td>
+                    <td>{{ detail_vente.quantite }}</td>
+                    <td>{{ detail_vente.prixunitaire }}</td>
+                    <td>
+                        <a href="{{ path('app_detail_vente_show', {'id': detail_vente.id}) }}">show</a>
+                        <a href="{{ path('app_detail_vente_edit', {'id': detail_vente.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3">no records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    <a href="{{ path('app_detail_vente_new') }}">Create new</a>
+{% endblock %}

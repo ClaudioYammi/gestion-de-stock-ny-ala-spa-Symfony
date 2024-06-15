@@ -1,0 +1,21 @@
+
+    {% for flashMessage in app.flashes('alert_double') %}
+        <div class="alert alert-danger alert-dismissible d-flex align-items-center m-3" role="alert">
+            <strong>Erreur! </strong> {{ flashMessage }}
+            <button type="button" class="close" data-dismiss="alert" >&times;</button>
+        </div>
+    {% endfor %}
+{% for flashMessage in app.flashes('alert_new_commande') %}
+        <div class="alert alert-danger alert-dismissible d-flex align-items-center m-3" role="alert">
+            <strong>Erreur! </strong> {{ flashMessage }}
+            <button type="button" class="close" data-dismiss="alert" >&times;</button>
+        </div>
+    {% endfor %}
+
+
+    {% for flashMessage in app.flashes('alert_low_vente') %}
+        <div class="alert alert-danger alert-dismissible d-flex align-items-center m-3" role="alert">
+            <strong>Erreur! </strong> {{ flashMessage }}
+            <button type="button" class="close" data-dismiss="alert" >&times;</button>
+        </div>
+    {% endfor %}

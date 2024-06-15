@@ -3,3 +3,90 @@ controllers:
         path: ../src/Controller/
         namespace: App\Controller
     type: attribute
+
+#erreur page inconnu ou inaccessible -----------------------------------------------------------------
+_default:
+    path: / 
+    controller: App\Controller\WelcomeController::index
+
+#page d'acceuil -----------------------------------------------------------------
+target_page:
+    path: /welcome # URL de la page de destination
+    controller: App\Controller\WelcomeController::index
+
+#exportation xls -------------------------------------------------------------------------------------   
+export_achats:
+    path: /export_achats
+    controller: App\Controller\AchatController::exportAchats
+
+export_ventes:
+    path: /export_ventes
+    controller: App\Controller\VenteController::exportVentes
+
+export_categories:
+    path: /export_categories
+    controller: App\Controller\CategorieController::exportCategories
+
+export_clients:
+    path: /export_clients
+    controller: App\Controller\ClientController::exportClients
+
+export_produits:
+    path: /export_produits
+    controller: App\Controller\ProduitController::exportProduits
+
+export_commandes:
+    path: /export_commandes
+    controller: App\Controller\CommandeController::exportCommandes
+
+export_emplacements:
+    path: /export_emplacements
+    controller: App\Controller\EmplacementController::exportEmplacements
+
+export_users:
+    path: /export_users
+    controller: App\Controller\UserController::exportUsers
+
+#exportation pdf -------------------------------------------------------------------------------------   
+app_produit_generate_pdf:
+    path: /generate-pdf/{id}
+    controller: App\Controller\ProduitController::generatePdf
+
+app_client_generate_pdf:
+    path: /client/generatepdf/{id}
+    controller: App\Controller\ClientController::generatePdf
+
+app_achat_pdf:
+    path: /achat/generatepdf/{id}
+    controller: App\Controller\AchatController::generatePdf
+
+app_commande_pdf:
+    path: /commande/generatepdf/{id}
+    controller: App\Controller\CommandeController::generatePdf
+
+
+#exportation liste table pdf -------------------------------------------------------------------------------------   
+app_achat_list:
+    path: /listpdf
+    controller: App\Controller\AchatController::listPdf
+    
+app_vente_list:
+    path: /listpdfvente
+    controller: App\Controller\VenteController::listPdf
+    
+app_commande_list:
+    path: /listpdfcommande
+    controller: App\Controller\CommandeController::listPdf
+
+app_produit_list:
+    path: /listpdfproduit
+    controller: App\Controller\ProduitController::listPdf
+
+app_client_list:
+    path: /listpdfclient
+    controller: App\Controller\ClientController::listPdf
+
+
+
+
+

@@ -1,0 +1,16 @@
+{% extends 'content.html.twig' %}
+
+{% block title %}Nouveau Client{% endblock %}
+
+{% block table %}
+    {{ include('client/_form.html.twig') }}
+
+{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_client_index') }}" class="btn btn-success btn-sm"><i class="fas fa-fw fa-arrow-left mr-2"></i>Retour</a>
+{% endblock %}
+
+{% block widget_droite %}
+
+{% endblock %}

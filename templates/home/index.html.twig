@@ -1,0 +1,322 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+  Tableau de bord
+{% endblock %}
+{% block widget_droite %}
+   
+{% endblock %}
+{% block body %}
+{% include '_alert/_message.html.twig' %}
+
+  <!-- Content Row -->
+        <div class="row">
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary  h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Achat effectuer</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {% if achats > 0 %}
+                                        {{ achats }}
+                                    {% else %}
+                                        <p>Aucune achat </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-success  h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                    Vente effectuer</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    {% if ventes > 0 %}
+                                        {{ ventes }}
+                                    {% else %}
+                                        <p>Aucune vente </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-info  h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Produits
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                            {% if produits > 0 %}
+                                                {{ produits }}
+                                            {% else %}
+                                                <p>Aucun produit </p>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-warning  h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                                    Total Achat</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">{{ totalDesAchats }}</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-comments fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-primary  h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                    Nombre client</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    6
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-user fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-danger  h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
+                                    Nombre Fournisseur</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                    3
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-truck fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Earnings (Monthly) Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-dark  h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-dark text-secondary text-uppercase mb-1">Nombre Utilisateur
+                                </div>
+                                <div class="row no-gutters align-items-center">
+                                    <div class="col-auto">
+                                        <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                            5
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pending Requests Card Example -->
+            <div class="col-xl-3 col-md-6 mb-4">
+                <div class="card border-left-secondary  h-100 py-2">
+                    <div class="card-body">
+                        <div class="row no-gutters align-items-center">
+                            <div class="col mr-2">
+                                <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                    Total Vente</div>
+                                <div class="h5 mb-0 font-weight-bold text-gray-800">5000000</div>
+                            </div>
+                            <div class="col-auto">
+                                <i class="fas fa-shopping-cart fa-2x text-gray-300"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+<!-- Content Row -->
+    <div class="row">
+        <!-- Content Column -->
+        <div class="col-lg-6 mb-4">
+            <!-- Project Card Example -->
+            <div class="card  mb-4">
+            <div class="text-xs font-weight-bold text-secondary text-uppercase mb-1">
+                                    Statistique Achat Vente et commande</div>
+                <div class="card-body">
+                <select id="yearSelect" onchange="handleYearChange()">
+    <!-- Options will be dynamically added by JavaScript -->
+</select>
+                  <canvas id="myChart" style="width:100%;max-width:600px"></canvas>
+
+    
+                <script>
+                    async function fetchMonthlyStatistics(year) {
+                    const response = await fetch(`/api/monthly-statistics?year=${year}`);
+                    const data = await response.json();
+
+                    // Debugging: Log the fetched data
+                    console.log('Fetched Data:', data);
+
+                    return data;
+                }
+
+                function prepareChartData(data) {
+                    const labels = Object.keys(data.sales);
+
+                    const salesData = labels.map(label => data.sales[label]);
+                    const purchasesData = labels.map(label => data.purchases[label]);
+
+                    return { labels, salesData, purchasesData };
+                }
+
+                async function createChart(year) {
+                    const data = await fetchMonthlyStatistics(year);
+                    const { labels, salesData, purchasesData } = prepareChartData(data);
+
+                    // Debugging: Log the prepared chart data
+                    console.log('Chart Data:', { labels, salesData, purchasesData });
+
+                    new Chart("myChart", {
+                        type: "line",
+                        data: {
+                            labels: labels,
+                            datasets: [
+                                {
+                                    label: 'Ventes',
+                                    data: salesData,
+                                    borderColor: "red",
+                                    fill: false
+                                },
+                                {
+                                    label: 'Achats',
+                                    data: purchasesData,
+                                    borderColor: "green",
+                                    fill: false
+                                }
+                            ]
+                        },
+                        options: {
+                            scales: {
+                                x: {
+                                    type: 'time',
+                                    time: {
+                                        unit: 'month',
+                                        tooltipFormat: 'MMM YYYY',
+                                        displayFormats: {
+                                            month: 'MMM YYYY'
+                                        }
+                                    },
+                                    title: {
+                                        display: true,
+                                        text: 'Month'
+                                    }
+                                },
+                                y: {
+                                    title: {
+                                        display: true,
+                                        text: 'Amount'
+                                    }
+                                }
+                            },
+                            plugins: {
+                                legend: { display: true }
+                            }
+                        }
+                    });
+                }
+
+                async function populateYearSelect() {
+                    const response = await fetch('/api/monthly-statistics');
+                    const data = await response.json();
+
+                    // Extract years with data
+                    const years = Object.keys(data.sales).map(month => month.slice(0, 4));
+                    const uniqueYears = [...new Set(years)]; // Get unique years
+
+                    // Populate select options
+                    const select = document.getElementById('yearSelect');
+                    uniqueYears.forEach(year => {
+                        const option = document.createElement('option');
+                        option.value = year;
+                        option.textContent = year;
+                        select.appendChild(option);
+                    });
+
+                    // Set initial year and create chart
+                    const currentYear = new Date().getFullYear();
+                    select.value = currentYear;
+                    createChart(currentYear);
+                }
+
+                function handleYearChange() {
+                    const year = document.getElementById('yearSelect').value;
+                    createChart(year);
+                }
+
+                // Initialize
+                populateYearSelect();
+                </script>
+                </div>
+            </div> 
+        </div>
+    </div>
+
+
+                    
+    
+{% endblock %}

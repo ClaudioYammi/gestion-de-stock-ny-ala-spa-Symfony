@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Client{% endblock %}
+
+{% block body %}
+    <table class="table table-hover cursor-pointer table-light">
+        <tbody>
+            <tr  class="table">
+                <th>Id</th>
+                <td>{{ client.id }}</td>
+            </tr>
+            <tr  class="table">
+                <th>Nom</th>
+                <td>{{ client.nom }}</td>
+            </tr>
+            <tr  class="table">
+                <th>Adresse</th>
+                <td>{{ client.adresse }}</td>
+            </tr>
+            <tr  class="table">
+                <th>Prenom</th>
+                <td>{{ client.prenom }}</td>
+            </tr>
+            <tr  class="table">
+                <th>Email</th>
+                <td>{{ client.email }}</td>
+            </tr>
+            <tr  class="table">
+                <th>Telephone</th>
+                <td>{{ client.telephone }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_client_index') }}" class="btn btn-dark btn-sm"><i class="fas fa-fw fa-arrow-left mr-2"></i>Retour</a>
+{% endblock %}
+
+{% block widget_droite %}
+    {{ include('client/_delete_form.html.twig') }}
+
+{% endblock %}

@@ -1,0 +1,109 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Achat index{% endblock %}
+
+{% block body %}
+<form method="GET" class="d-none d-sm-inline-block form-inline mr-auto ml-md-3 my-2 my-md-0 mw-100 navbar-search">
+    <div class="d-flex flex-wrap align-items-center"> <!-- Ajout de la classe "align-items-center" pour centrer verticalement les éléments -->
+        <a class="btn btn-warning btn-sm mr-2 mb-2" href="{{ path('app_achat_index') }}">
+            <i class="fas fa-sync-alt"></i>
+        </a>
+        {% for attribute in allowedAttributes %}
+            <div class="input-group mr-2 mb-2 input-group-sm"> <!-- Ajout des classes "mr-2" et "mb-2" pour espacer les éléments -->
+                <input type="text" class="form-control form-control-sm" aria-label="Search" aria-describedby="basic-addon2" 
+                placeholder="Pour {{ attribute }}" id="{{ attribute }}" name="{{ attribute }}" value="{{ searchCriteria[attribute] ?? '' }}">
+                <div class="input-group-append mr-4">
+                    <button class="btn btn-primary btn-sm" type="submit">
+                        <i class="fas fa-search fa-sm"></i>
+                    </button>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</form>
+
+{% include '_alert/_message.html.twig' %}
+
+{# <div class="table-responsive">    #}
+
+    <table class="table  table-hover">
+        <thead >
+            <tr>
+                <th>
+                    <a href="{{ path('app_achat_index', {'sort': 'numfacture', 'order': (order == 'asc' ? 'desc' : 'asc')}) }}">
+                        Achat Num 
+                        <i class="fas fa-sort"></i>
+                    </a>    
+                </th>
+                <th>
+                    <a href="{{ path('app_achat_index', {'sort': 'dateachat', 'order': (order == 'asc' ? 'desc' : 'asc')}) }}">
+                        Date achat
+                        <i class="fas fa-sort"></i>
+                    </a>   
+                </th>
+                <th scope="col">
+                        <a href="{{ path('app_achat_index', {'sort': 'fournisseur', 'order': (order == 'asc' ? 'desc' : 'asc')}) }}">
+                            Fournisseur
+                            <i class="fas fa-sort"></i>
+                        </a>
+                </th>
+                <th>
+                     Total    
+                </th>
+                <th>
+                    Act
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for achat in pagination %}
+            <tr>
+                <td>
+                    <button class="btn btn-secondary btn-sm">{{ achat.numfacture }}</button>
+                </td>
+                <td>
+                    {{ achat.dateachat ? achat.dateachat|date('Y-m-d') : '' }}
+                    <small class="text-muted">
+                        {{ achat.dateachat ? achat.dateachat|date('H:i:s') : '' }}
+                    </small>
+                </td>
+                <td>{{ achat.idFournisseur.nom}}</td>
+                <td>{{ achat.total()|number_format(2, ',', ' ') }} Ar</td>
+                <td>
+                    <div class="d-flex align-items-center">
+                        {{ include('achat/_delete_form.html.twig') }}
+                        <a href="{{ path('app_achat_show', {'id': achat.id}) }}" class="btn btn-primary btn-success btn-sm mx-2"><i class="fas fa-fw fa-eye"></i></a>
+                        <a href="{{ path('app_achat_pdf', {'id': achat.id}) }} " class="d-none d-sm-inline-block btn btn-sm btn-secondary">
+                            <i class="fas fa-file-invoice"></i>
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="5">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+{# </div> #}
+    <!-- Ajouter la pagination -->
+    <div class="pagination pagination-sm">
+        {{ knp_pagination_render(pagination) }}
+    </div>
+{% endblock %}
+
+{% block widget %}
+    <a href="{{ path('app_achat_new') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+        <i class="fas fa-user-plus"></i> Nouveau
+    </a>
+{% endblock %}
+
+{% block widget_droite %}
+<a href="{{ path('app_achat_list') }} " class="d-none d-sm-inline-block btn btn-sm btn-danger">
+    <i class="fas fa-file-pdf"></i> Exporter la liste
+</a>
+<a href="{{ path('export_achats') }}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm">
+    <i class="far fa-file-excel mr-1"></i> Exporter en XLS
+</a>
+{% endblock %}

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Facture</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            padding: 0;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        p {
+            margin-bottom: 10px;
+        }
+
+        .client-details {
+            border: 1px solid #ccc;
+            padding: 10px;
+            background-color: #f9f9f9;
+        }
+
+        .client-details p {
+            margin: 5px 0;
+        }
+
+        .client-details h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        /* Ajoutez d'autres styles CSS selon vos besoins */
+    </style>
+</head>
+<body>
+    <h1>Fiche pour le client {{ client.nom}}</h1>
+    <div class="client-details">
+        <h2>Informations sur le client</h2>
+        <p>
+            <strong>Nom :</strong> {{ client.nom }}<br>
+            <strong>Prénom :</strong> {{ client.prenom }}<br>
+            <strong>Adresse :</strong> {{ client.adresse }}<br>
+            <strong>Email :</strong> {{ client.email }}<br>
+            <strong>Téléphone :</strong> {{ client.telephone }}<br>
+            <!-- Ajoutez ici d'autres détails sur le client que vous souhaitez inclure dans la facture -->
+        </p>
+    </div>
+</body>
+</html>

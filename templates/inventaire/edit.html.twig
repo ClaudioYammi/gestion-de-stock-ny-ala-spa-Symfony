@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit Inventaire{% endblock %}
+
+{% block body %}
+    <h1>Edit Inventaire</h1>
+
+    {{ include('inventaire/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('app_inventaire_index') }}">back to list</a>
+
+    {{ include('inventaire/_delete_form.html.twig') }}
+{% endblock %}
