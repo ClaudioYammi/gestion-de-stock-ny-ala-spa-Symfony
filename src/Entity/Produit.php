@@ -78,6 +78,9 @@ class Produit
 
     #[ORM\Column(type: "datetime", nullable: true)]
     private $updatedAt;
+
+    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    private ?string $prixunitairevente = null;
     
     public function __construct()
     {
@@ -438,6 +441,18 @@ class Produit
 
     public function setUpdatedAt(?\DateTimeInterface $updatedAt): self {
         $this->updatedAt = $updatedAt;
+        return $this;
+    }
+
+    public function getPrixunitairevente(): ?string
+    {
+        return $this->prixunitairevente;
+    }
+
+    public function setPrixunitairevente(string $prixunitairevente): static
+    {
+        $this->prixunitairevente = $prixunitairevente;
+
         return $this;
     }
 }

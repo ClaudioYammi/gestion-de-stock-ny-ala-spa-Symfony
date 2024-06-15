@@ -5,14 +5,14 @@ controllers:
     type: attribute
 
 #erreur page inconnu ou inaccessible -----------------------------------------------------------------
-_default:
-    path: / 
-    controller: App\Controller\WelcomeController::index
+# home:
+#     path: / 
+#     controller: App\Controller\WelcomeController::index
 
-#page d'acceuil -----------------------------------------------------------------
-target_page:
-    path: /welcome # URL de la page de destination
-    controller: App\Controller\WelcomeController::index
+# #page d'acceuil -----------------------------------------------------------------
+# target_page:
+#     path: /welcome # URL de la page de destination
+#     controller: App\Controller\WelcomeController::index
 
 #exportation xls -------------------------------------------------------------------------------------   
 export_achats:

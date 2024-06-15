@@ -159,7 +159,7 @@ class Vente
     $soustotal = 0.0;
 
         foreach ($this->getDetailVentes() as $detailVente) {
-            $soustotal += $detailVente->getPrixunitaire() * $detailVente->getQuantite();
+            $soustotal += $detailVente->getPrixunitairevente() * $detailVente->getQuantite();
         }
         return $soustotal;
     }
@@ -171,7 +171,7 @@ class Vente
         $remise = 0.0;
 
         foreach ($this->getDetailVentes() as $detailVente) {
-            $montant = $detailVente->getPrixunitaire() * $detailVente->getQuantite();
+            $montant = $detailVente->getPrixunitairevente() * $detailVente->getQuantite();
             $tva += $montant * ($this->getTva() / 100);
             $remise += $montant * ($this->getRemise() / 100);
             $total += $montant;

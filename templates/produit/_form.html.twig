@@ -38,6 +38,11 @@
             {{ form_errors(form.prixunitaire) }}
         </div>
         <div class="col-md">
+            <label>Prix de vente (Ariary) </label>
+            {{ form_widget(form.prixunitairevente) }}
+            {{ form_errors(form.prixunitairevente) }}
+        </div>
+        <div class="col-md">
             <label>Date d'expiration</label>
             {{ form_widget(form.dateexp) }}
             {{ form_errors(form.dateexp) }}

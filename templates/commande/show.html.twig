@@ -30,12 +30,12 @@
             </thead>
             <tbody>
                 {% for detail in commande.detailcommandes %}
-                <tr>
-                    <td>{{ detail.reference.designation }}</td>
-                    <td>{{ detail.quantite }}</td>
-                    <td>{{ detail.prixunitaire|number_format(2, ',', ' ') }} Ar</td>
-                    <td>{{ (detail.prixunitaire * detail.quantite)|number_format(2, ',', ' ') }} Ar</td>
-                </tr>
+                    <tr>
+                        <td>{{ detail.reference.designation }}</td>
+                        <td>{{ detail.quantite }}</td>
+                        <td>{{ detail.prixunitairevente|number_format(2, ',', ' ') }} Ar</td>
+                        <td>{{ (detail.prixunitairevente * detail.quantite)|number_format(2, ',', ' ') }} Ar</td>
+                    </tr>
                 {% endfor %}
             </tbody>
         </table>

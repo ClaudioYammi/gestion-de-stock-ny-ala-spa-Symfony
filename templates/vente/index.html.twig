@@ -24,7 +24,7 @@
                             {{ vente.datevente ? vente.datevente|date('H:i:s') : '' }}
                         </small>
                     </td>
-                    <td>{{ vente.soustotal()|number_format(2, ',', ' ') }} Ar</td>
+                    <td>{{ vente.total()|number_format(2, ',', ' ') }} Ar</td>
                     <td>
                         <div class="d-flex align-items-center">
                             {{ include('vente/_delete_form.html.twig') }}

@@ -51,7 +51,7 @@ class ProduitController extends AbstractController
         
 
         // Get search parameters from request query (if any)
-        $allowedAttributes = ['designation', 'emplacement', 'prixunitaire']; // Define allowed attributes
+        $allowedAttributes = ['designation', 'emplacement', 'prixunitaire', 'prixunitairevente']; // Define allowed attributes
         foreach ($allowedAttributes as $attribute) {
             if ($request->query->has($attribute)) {
                 $searchCriteria[$attribute] = $request->query->get($attribute);
@@ -89,6 +89,7 @@ class ProduitController extends AbstractController
                 'id' => $produit->getId(),
                 'designation' => $produit->getDesignation(),
                 'price' => $produit->getPrixunitaire(),
+                'pricesell' => $produit->getPrixunitairevente(),
                 // Ajoutez ici d'autres propriétés du produit que vous souhaitez inclure dans la réponse JSON
             ];
         }

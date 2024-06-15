@@ -26,7 +26,7 @@ class DetailCommande
     private ?string $quantite = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
-    private ?string $prixunitaire = null;
+    private ?string $prixunitairevente = null;
 
     public function getId(): ?int
     {
@@ -69,14 +69,14 @@ class DetailCommande
         return $this;
     }
 
-    public function getPrixunitaire(): ?string
+    public function getPrixunitairevente(): ?string
     {
-        return $this->prixunitaire;
+        return $this->prixunitairevente;
     }
 
-    public function setPrixunitaire(string $prixunitaire): static
+    public function setPrixunitaire(string $prixunitairevente): static
     {
-        $this->prixunitaire = $prixunitaire;
+        $this->prixunitairevente = $prixunitairevente;
 
         return $this;
     }

@@ -65,6 +65,17 @@ class ProduitType extends AbstractType
                     'placeholder' => 'ex: 90 000',
                 ],
             ])
+
+            ->add('prixunitairevente', NumberType::class, [
+                'label' => 'Prix unitaire',
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez entrer un prix unitaire.']),
+                    new Positive(['message' => 'Le prix unitaire doit être un nombre positif.']),
+                ],
+                'attr' => [
+                    'placeholder' => 'ex: 90 000',
+                ],
+            ])
             
             ->add('dateexp', DateTimeType::class, [
                 'label' => 'Date d\'expiration',

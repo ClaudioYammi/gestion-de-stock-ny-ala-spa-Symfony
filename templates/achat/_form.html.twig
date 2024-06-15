@@ -55,10 +55,9 @@
     <div class="row">
         <div class="col">
             <button id="add" class="btn btn-primary btn-sm" >Ajouter une ligne</button>
-            <a class="dropdown-item " data-bs-toggle="modal" data-bs-target="#achatModal" >
-                <button class="btn btn-success btn-sm " data-bs-toggle="modal" data-bs-target="#achatModal" >{{ button_label|default('Enregistrer') }}</button>
-            </a>
-            {% include 'achat/_new_form.html.twig' %}
+            
+                <button class="btn btn-success btn-sm " >{{ button_label|default('Enregistrer') }}</button>
+            
         </div>
     </div>
     </div>

@@ -66,6 +66,7 @@
     </div>
 </div>
 {{ form_end(form) }}
+
 <script>
     document.getElementById("add").addEventListener('click', addRow);
 
@@ -86,7 +87,7 @@
         var newRow = document.createElement("tr");
         var produitCell = document.createElement("td");
         var quantiteCell = document.createElement("td");
-        var prixUnitaireCell = document.createElement("td");
+        var prixunitaireventeCell = document.createElement("td");
         var actionsCell = document.createElement("td");
 
         var produitSelect = document.createElement("select");
@@ -112,7 +113,7 @@
                     var option = document.createElement("option");
                     option.value = product.id;
                     option.textContent = product.designation;
-                    option.dataset.price = product.price; // Ajout de l'attribut data-price pour stocker le prix unitaire
+                    option.dataset.pricesell = product.pricesell; // Ajout de l'attribut data-pricesell pour stocker le prix unitaire
                     produitSelect.appendChild(option);
                 });
             })
@@ -123,20 +124,20 @@
 
         produitSelect.addEventListener('change', function() {
             var selectedOption = this.options[this.selectedIndex];
-            var priceInput = prixUnitaireCell.querySelector('.prixunitaire-input');
-            var price = selectedOption.dataset.price;
+            var pricesellInput = prixunitaireventeCell.querySelector('.prixunitairevente-input');
+            var pricesell = selectedOption.dataset.pricesell;
 
-            priceInput.value = price;
+            pricesellInput.value = pricesell;
         });
 
         produitCell.appendChild(produitSelect);
         quantiteCell.innerHTML = '<input type="text" name="quantite[]" class="quantite-input form-control">';
-        prixUnitaireCell.innerHTML = '<input type="text"  name="prixunitaire[]" class="prixunitaire-input form-control">';
+        prixunitaireventeCell.innerHTML = '<input type="text"  name="prixunitairevente[]" class="prixunitairevente-input form-control">';
         actionsCell.innerHTML = '<button class="delete btn btn-danger" onclick="deleteRow(this)"><i class="fas fa-trash"></i></button>';
 
         newRow.appendChild(produitCell);
         newRow.appendChild(quantiteCell);
-        newRow.appendChild(prixUnitaireCell);
+        newRow.appendChild(prixunitaireventeCell);
         newRow.appendChild(actionsCell);
 
         table.appendChild(newRow);
@@ -159,14 +160,14 @@
     rows.forEach((row, index) => {
     // Récupérer les éléments <input> dans la ligne actuelle
     const inputProduit = row.querySelector("select[name='produit[]']");
-    const inputPrix = row.querySelector("input[name='prixunitaire[]']");
+    const inputPrix = row.querySelector("input[name='prixunitairevente[]']");
     const inputQuantite = row.querySelector("input[name='quantite[]']");
     console.log(inputProduit)
         try {
             if(inputProduit.value.trim()){
             // Mettre à jour les valeurs des inputs
             inputProduit.setAttribute('name', "produit-" + index + "");
-            inputPrix.setAttribute('name',"prixunitaire-" + index + "");
+            inputPrix.setAttribute('name',"prixunitairevente-" + index + "");
             inputQuantite.setAttribute('name',"quantite-" + index + "");
         }
     } catch (error) {
@@ -183,10 +184,10 @@
         rows.forEach(function(row) {
             try {
                 var quantityInput = row.querySelector(".quantite-input");
-                var unitPriceInput = row.querySelector(".prixunitaire-input");
+                var unitpricesellInput = row.querySelector(".prixunitairevente-input");
                 var quantity = parseFloat(quantityInput.value) || 0;
-                var unitPrice = parseFloat(unitPriceInput.value) || 0;
-                total += quantity * unitPrice;
+                var unitpricesell = parseFloat(unitpricesellInput.value) || 0;
+                total += quantity * unitpricesell;
             } catch(error){
 
             }

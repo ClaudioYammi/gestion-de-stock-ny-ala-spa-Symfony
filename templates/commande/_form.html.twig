@@ -120,7 +120,7 @@
                     var option = document.createElement("option");
                     option.value = product.id;
                     option.textContent = product.designation;
-                    option.dataset.price = product.price; // Ajout de l'attribut data-price pour stocker le prix unitaire
+                    option.dataset.pricesell = product.pricesell; // Ajout de l'attribut data-pricesell pour stocker le prix unitaire
                     produitSelect.appendChild(option);
                 });
             })
@@ -131,10 +131,10 @@
 
         produitSelect.addEventListener('change', function() {
             var selectedOption = this.options[this.selectedIndex];
-            var priceInput = prixUnitaireCell.querySelector('.prixunitaire-input');
-            var price = selectedOption.dataset.price;
+            var pricesellInput = prixUnitaireCell.querySelector('.prixunitaire-input');
+            var pricesell = selectedOption.dataset.pricesell;
 
-            priceInput.value = price;
+            pricesellInput.value = pricesell;
         });
 
         produitCell.appendChild(produitSelect);
@@ -191,10 +191,10 @@
         rows.forEach(function(row) {
             try {
                 var quantityInput = row.querySelector(".quantite-input");
-                var unitPriceInput = row.querySelector(".prixunitaire-input");
+                var unitpricesellInput = row.querySelector(".prixunitaire-input");
                 var quantity = parseFloat(quantityInput.value) || 0;
-                var unitPrice = parseFloat(unitPriceInput.value) || 0;
-                total += quantity * unitPrice;
+                var unitpricesell = parseFloat(unitpricesellInput.value) || 0;
+                total += quantity * unitpricesell;
             } catch(error){
 
             }

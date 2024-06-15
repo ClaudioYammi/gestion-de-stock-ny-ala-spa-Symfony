@@ -192,7 +192,7 @@ class Commande
     {
         $soustotal = 0.0;
         foreach ($this->getDetailCommandes() as $detailAchat) {
-            $soustotal += $detailAchat->getPrixunitaire() * $detailAchat->getQuantite();
+            $soustotal += $detailAchat->getPrixunitairevente() * $detailAchat->getQuantite();
         }
         return $soustotal;
     }
@@ -204,7 +204,7 @@ class Commande
         $remise = 0.0;
 
         foreach ($this->getDetailCommandes() as $detailAchat) {
-            $montant = $detailAchat->getPrixunitaire() * $detailAchat->getQuantite();
+            $montant = $detailAchat->getPrixunitairevente() * $detailAchat->getQuantite();
             $tva += $montant * ($this->getTva() / 100);
             $remise += $montant * ($this->getRemise() / 100);
             $total += $montant;

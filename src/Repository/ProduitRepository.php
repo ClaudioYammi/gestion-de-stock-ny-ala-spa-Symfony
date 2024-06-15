@@ -34,7 +34,7 @@ class ProduitRepository extends ServiceEntityRepository
      */
     public function findByCriteriaAllowed(array $criteria = [], array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
-        $allowedAttributes = ['designation', 'prixunitaire', 'emplacement', 'unite']; // Define allowed attributes
+        $allowedAttributes = ['designation', 'prixunitaire', 'prixunitairevente', 'emplacement', 'unite']; // Define allowed attributes
 
         $qb = $this->createQueryBuilder('p');
 

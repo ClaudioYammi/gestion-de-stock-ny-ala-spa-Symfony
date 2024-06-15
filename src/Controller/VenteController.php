@@ -67,9 +67,9 @@ class VenteController extends AbstractController
             for ($i = 0; $i < 20; $i++) {
                 $produitId = $request->request->get("produit-$i");
                 $quantite = $request->request->get("quantite-$i");
-                $prixUnitaire = $request->request->get("prixunitaire-$i");
+                $prixUnitairevente = $request->request->get("prixunitairevente-$i");
 
-                if ($produitId && $prixUnitaire && $quantite) {
+                if ($produitId && $prixUnitairevente && $quantite) {
                     if (in_array($produitId, $selectedProducts)) {
                         $this->addFlash('alert_double', 'Le produit est sélectionné plusieurs fois.');
                         
@@ -98,7 +98,7 @@ class VenteController extends AbstractController
                         $detail = new DetailVente();
                         $detail->setidVente($vente);
                         $detail->setReference($produit);
-                        $detail->setPrixUnitaire($prixUnitaire);
+                        $detail->setPrixunitairevente($prixUnitairevente);
                         $detail->setQuantite($quantite);
                         $details[] = $detail;
 
@@ -189,7 +189,7 @@ class VenteController extends AbstractController
                     $detail = new DetailVente();
                     $detail->setIdVente($vente);
                     $detail->setReference($produit);
-                    $detail->setPrixunitaire($prixUnitaire);
+                    $detail->setPrixunitairevente($prixUnitaire);
                     $detail->setQuantite($quantite);
                     $details[] = $detail;
                 }
