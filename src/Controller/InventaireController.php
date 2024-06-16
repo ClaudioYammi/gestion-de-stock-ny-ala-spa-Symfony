@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use DateTimeZone;
+use Knp\Component\Pager\PaginatorInterface;
 
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -35,11 +36,44 @@ class InventaireController extends AbstractController
     }
 
     #[Route('/', name: 'app_inventaire_index', methods: ['GET'])]
-    public function index(InventaireRepository $inventaireRepository
+    public function index(Request $request, 
+                        InventaireRepository $inventaireRepository,
+                        PaginatorInterface $paginator
     ): Response
     {
+        // filtrage ------------------------------------------------------------------------------------------------
+        $sort = $request->query->get('sort'); // Get sort parameter
+        $order = $request->query->get('order'); // Get order parameter
+        
+        // recherche ------------------------------------------------------------------------------------------------
+        $searchCriteria = []; // Initialize empty search criteria
+        $orderBy = null; // Initialize empty order by
+
+        // Get search parameters from request query (if any)
+        $allowedAttributes = [ 'update_at', 'note', 'stockinventaire', 'stockutiliser' ]; // Define allowed attributes
+        foreach ($allowedAttributes as $attribute) {
+            if ($request->query->has($attribute)) {
+                $searchCriteria[$attribute] = $request->query->get($attribute);
+            }
+        }
+
+        // Get order by parameter from request query (if any)
+        if ($request->query->has('sort')) {
+            $orderBy = [$request->query->get('sort') => $request->query->get('direction', 'ASC')];
+        }
+        
+        $pagination = $paginator->paginate(
+             $inventaireRepository->findByCriteriaAllowed($searchCriteria, $orderBy),
+            $request->query->getInt('page', 1),
+            8 // Nombre d'éléments par page
+        );
+
         return $this->render('inventaire/index.html.twig', [
-            'inventaires' => $inventaireRepository->findAll(),
+            'pagination' => $pagination,
+            'searchCriteria' => $searchCriteria, // Pass search criteria to Twig template for display
+            'allowedAttributes' => $allowedAttributes,
+            'order' => $order,
+            'sort' => $sort,
         ]);
     }
 

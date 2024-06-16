@@ -30,7 +30,7 @@ class CommandeRepository extends ServiceEntityRepository
      * @param int|null $limit  Limits the number of results
      * @param int|null $offset  Starts from a specific offset in the results
      *
-     * @return Produit[] An array of Produit entities that match the search criteria on allowed attributes
+     * @return Commande[] An array of Produit entities that match the search criteria on allowed attributes
      */
     public function findByCriteriaAllowed(array $criteria = [], array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
