@@ -29,7 +29,7 @@ class InventaireRepository extends ServiceEntityRepository
      */
     public function findByCriteriaAllowed(array $criteria = [], array $orderBy = null, ?int $limit = null, ?int $offset = null): array
     {
-        $allowedAttributes = [ 'update_at', 'note', 'stockinventaire', 'stockutiliser' ]; // Define allowed attributes
+        $allowedAttributes = ['update_at', 'reference', 'stockinventaire', 'stockutiliser' ]; // Define allowed attributes
 
         $qb = $this->createQueryBuilder('p');
 
@@ -58,9 +58,16 @@ class InventaireRepository extends ServiceEntityRepository
     {
         foreach ($criteria as $field => $value) {
             if (in_array($field, $allowedAttributes)) {
-                // Use LIKE operator for other allowed attributes
+                if ($field === 'reference') {
+                    // Join the reference entity (replace with your actual entity name)
+                    $qb->innerJoin('p.reference', 'e');
+                    $qb->andWhere('e.designation LIKE :reference') // Replace 'name' with the actual field name in reference
+                        ->setParameter('reference', '%' . $value . '%');
+                } else {
+                    // Use LIKE operator for other allowed attributes
                 $qb->andWhere('p.' . $field . ' LIKE :'.$field)
                 ->setParameter($field, '%' . $value . '%');
+                }
             }
         }
     }
