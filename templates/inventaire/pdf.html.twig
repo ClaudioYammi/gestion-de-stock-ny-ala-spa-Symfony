@@ -2,7 +2,7 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Liste des achats</title>
+    <title>Liste des inventaires</title>
     <style>
         body {
             font-family: 'Arial', sans-serif;
@@ -53,30 +53,28 @@
     </style>
 </head>
 <body>
-    <h1>Liste des Achat</h1>
+    <h1>Liste des inventaires</h1>
         <p>Date d'éxporation : {{ currentDateTime|date('Y-m-d H:i:s') }} </p>
     <table>
         <thead>
             <tr>
-                <th>No facture</th>
-                <th>Date d'achat</th>
-                <th>Fournisseur</th>
-                <th>Sous-total</th>
-                <th>TVA</th>
-                <th>Remise</th>
-                <th>Total</th>
+                <th>Date d'inventaire</th>
+                <th>Date d'inventaire</th>
+                <th>Note</th>
+                <th>Stock inventaire</th>
+                <th>Stock utiliser</th>
+                <th>ecart</th>
             </tr>
         </thead>
         <tbody>
-            {% for achat in achats %}
+            {% for inventaire in inventaires %}
                 <tr>
-                    <td>{{ achat.numfacture }}</td>
-                    <td>{{ achat.dateachat|date('Y-m-d H:i:s') }}</td>
-                    <td>{{ achat.idFournisseur.nom }}</td>
-                    <td>{{ achat.soustotal|number_format(2, ',', ' ') }} Ar</td>
-                    <td>{{ achat.Tva }} %</td>
-                    <td>{{ achat.Remise }} %</td>
-                    <td>{{ achat.total|number_format(2, ',', ' ') }} Ar</td>
+                    <td>{{ inventaire.updateAt ? inventaire.updateAt|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>{{ inventaire.reference.designation }}</td>
+                    <td>{{ inventaire.note }}</td>
+                    <td>{{ inventaire.stockinventaire }} </td>
+                    <td>{{ inventaire.stockutiliser }} </td>
+                    <td>{{ inventaire.calculerEcart() }} </td>
                 </tr>
             {% endfor %}
         </tbody>

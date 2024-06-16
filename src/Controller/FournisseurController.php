@@ -89,8 +89,8 @@ class FournisseurController extends AbstractController
     {
         if ($this->isCsrfTokenValid('delete'.$fournisseur->getId(), $request->request->get('_token'))) {
             // Vérifiez si le fournisseur est lié à d'autres données
-            if (count($fournisseur->getProduits()) > 0) {
-                $this->addFlash('error', 'Impossible de supprimer ce fournisseur car il est lié à d\'autres données dans la table produit.');
+            if (count($fournisseur->getAchats()) > 0) {
+                $this->addFlash('error', 'Impossible de supprimer ce fournisseur car il est lié à d\'autres données dans la table achat.');
             } else {
                 try {
                     $entityManager->remove($fournisseur);

@@ -13,6 +13,17 @@
 
 <div class="row m-3">
 <form id="inventaire-form" method="post" action="/inventaire/new" class="row g-3">
+    <div class="col-md-12 mt-3">
+        <button type="submit" class="btn btn-primary" id="enregistrer-btn">
+            <i class="fas fa-save"></i> Enregistrer
+        </button>
+        <button type="button" class="btn btn-success" id="nouvelle-ligne-btn">
+            <i class="fas fa-plus-circle"></i> Nouvelle ligne
+        </button>
+        <button type="button" class="btn btn-danger" id="supprimer-ligne-btn">
+            <i class="fas fa-trash-alt"></i> Supprimer la ligne
+        </button>
+    </div>
     <div id="form-rows">
         <div class="row g-3">
             <div class="col-md-2">
@@ -42,11 +53,7 @@
             </div>
         </div>
     </div>
-    <div class="col-md-12 mt-3">
-        <button type="submit" class="btn btn-primary" id="enregistrer-btn">Enregistrer</button>
-        <button type="button" class="btn btn-success" id="nouvelle-ligne-btn">Nouvelle ligne</button>
-        <button type="button" class="btn btn-danger" id="supprimer-ligne-btn">Supprimer la ligne</button>
-    </div>
+    
 </form>
 
 <script>
