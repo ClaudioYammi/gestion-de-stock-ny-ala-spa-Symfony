@@ -1,31 +1,13 @@
-{% extends 'content.html.twig' %}
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('inventaire-form');
+    const nouvelleLigneBtn = document.getElementById('nouvelle-ligne-btn');
+    const supprimerLigneBtn = document.getElementById('supprimer-ligne-btn');
+    const formRows = document.getElementById('form-rows');
 
-{% block title %}Nouveau inventaire{% endblock %}
-{% block widget %}
-    <a href="{{ path('app_inventaire_index') }}" class="btn btn-dark btn-sm"><i class="fas fa-fw fa-arrow-left mr-2"></i>Retour</a>
-{% endblock %}
-
-{% block widget_droite %}
-
-{% endblock %}
-
-{% block table %}
-
-<div class="row m-3">
-<form id="inventaire-form" method="post" action="/inventaire/new" class="row g-3">
-    <div class="col-md-12 mt-3">
-        <button type="submit" class="btn btn-primary" id="enregistrer-btn">
-            <i class="fas fa-save"></i> Enregistrer
-        </button>
-        <button type="button" class="btn btn-success" id="nouvelle-ligne-btn">
-            <i class="fas fa-plus-circle"></i> Nouvelle ligne
-        </button>
-        <button type="button" class="btn btn-danger" id="supprimer-ligne-btn">
-            <i class="fas fa-trash-alt"></i> Supprimer la ligne
-        </button>
-    </div>
-    <div id="form-rows">
-        <div class="row g-3">
+    nouvelleLigneBtn.addEventListener('click', function() {
+        const newRow = document.createElement('div');
+        newRow.classList.add('row', 'g-3', 'mt-3');
+        newRow.innerHTML = `
             <div class="col-md-2">
                 <label for="reference">Référence</label>
                 <select class="form-select" name="reference[]" required>
@@ -51,9 +33,16 @@
                 <label for="stockutiliser">Stock utilisé</label>
                 <input type="number" class="form-control" name="stockutiliser[]" required>
             </div>
-        </div>
-    </div>
-</form>
-<script src="{{ asset('js/inventaire.js') }}"></script>
+        `;
+        formRows.appendChild(newRow);
+    });
 
-{% endblock %}
+    supprimerLigneBtn.addEventListener('click', function() {
+        const rows = formRows.querySelectorAll('.row.g-3');
+        if (rows.length > 1) {
+            rows[rows.length - 1].remove();
+        } else {
+            alert('Il doit y avoir au moins une ligne.');
+        }
+    });
+});
