@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use DateTimeZone; 
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 
 #[Route('/detail/commande')]
 class DetailCommandeController extends AbstractController

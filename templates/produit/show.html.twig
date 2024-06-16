@@ -45,7 +45,7 @@
 </table>
 <div class="row">
     <div class="col">
-        <a href="{{ path('app_produit_edit', {'id': produit.id}) }}" class="btn btn-success btn-sm">
+        <a href="{{ path('app_produit_edit', {'id': produit.id| nzo_encrypt}) }}" class="btn btn-success btn-sm">
             Modifier
         </a>
         <a href="{{ path('app_produit_index') }}" class="btn btn-dark btn-sm">

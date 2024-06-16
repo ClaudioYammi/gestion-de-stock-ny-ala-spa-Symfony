@@ -15,7 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
-
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 #[Route('/categorie')]
 class CategorieController extends AbstractController
 {
@@ -97,6 +97,7 @@ class CategorieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_categorie_show', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function show(Categorie $categorie): Response
     {
         return $this->render('categorie/show.html.twig', [
@@ -105,6 +106,7 @@ class CategorieController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_categorie_edit', methods: ['GET', 'POST'])]
+    #[ParamDecryptor(['id'])]
     public function edit(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CategorieType::class, $categorie);
@@ -124,6 +126,7 @@ class CategorieController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_categorie_delete', methods: ['POST'])]
+    #[ParamDecryptor(['id'])]
     public function delete(Request $request, Categorie $categorie, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$categorie->getId(), $request->request->get('_token'))) {

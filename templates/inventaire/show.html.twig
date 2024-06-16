@@ -4,34 +4,32 @@
 
 {% block body %}
 
-    <table class="table">
+    <table class="table table-hover cursor-pointer table-light">
         <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ inventaire.id }}</td>
-            </tr>
-            <tr>
+            <tr class="table-success">
                 <th>Update_at</th>
                 <td>{{ inventaire.updateAt ? inventaire.updateAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
-            <tr>
+            <tr class="table">
                 <th>Note</th>
                 <td>{{ inventaire.note }}</td>
             </tr>
-            <tr>
+            <tr class="table-success">
                 <th>Stockinventaire</th>
                 <td>{{ inventaire.stockinventaire }}</td>
             </tr>
-            <tr>
+            <tr class="table">
                 <th>Stockutiliser</th>
                 <td>{{ inventaire.stockutiliser }}</td>
             </tr>
         </tbody>
     </table>
+{% endblock %}
 
-    <a href="{{ path('app_inventaire_index') }}">back to list</a>
+{% block widget %}
+    <a href="{{ path('app_inventaire_index') }}" class="btn btn-dark btn-sm"><i class="fas fa-fw fa-arrow-left mr-2"></i>Retour</a>
+{% endblock %}
 
-    <a href="{{ path('app_inventaire_edit', {'id': inventaire.id}) }}">edit</a>
-
+{% block widget_droite %}
     {{ include('inventaire/_delete_form.html.twig') }}
 {% endblock %}

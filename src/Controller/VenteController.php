@@ -23,6 +23,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 use Knp\Snappy\Pdf;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 
 #[Route('/vente')]
 class VenteController extends AbstractController
@@ -125,6 +126,7 @@ class VenteController extends AbstractController
 
 
     #[Route('/{id}', name: 'app_vente_show', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function show(Vente $vente): Response
     {
         return $this->render('vente/show.html.twig', [
@@ -133,6 +135,7 @@ class VenteController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_vente_edit', methods: ['GET', 'POST'])]
+    #[ParamDecryptor(['id'])]
     public function edit(Request $request, EntityManagerInterface $entityManager, $id): Response
     {
         // Récupération de la vente et de ses détails
@@ -263,6 +266,7 @@ class VenteController extends AbstractController
     }
 
     #[Route('/generatepdf/{id}', name: 'app_vente_pdf', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function generatePdf(Vente $vente, Request $request): Response
     {
         // Créer un objet DateTime pour la date actuelle

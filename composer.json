@@ -15,6 +15,7 @@
         "knplabs/knp-snappy-bundle": "^1.10",
         "kwn/number-to-words": "^2.9",
         "liip/imagine-bundle": "^2.12",
+        "nzo/url-encryptor-bundle": "^6.3",
         "omines/datatables-bundle": "^0.8.2",
         "phpdocumentor/reflection-docblock": "^5.3",
         "phpoffice/phpspreadsheet": "^2.0",

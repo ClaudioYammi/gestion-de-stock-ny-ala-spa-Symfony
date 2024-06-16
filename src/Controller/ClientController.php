@@ -18,6 +18,8 @@ use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 #[Route('/client')]
 class ClientController extends AbstractController
 {
@@ -104,6 +106,7 @@ class ClientController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_client_show', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function show(Client $client): Response
     {
         return $this->render('client/show.html.twig', [
@@ -112,6 +115,7 @@ class ClientController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_client_edit', methods: ['GET', 'POST'])]
+    #[ParamDecryptor(['id'])]
     public function edit(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ClientType::class, $client);
@@ -131,6 +135,7 @@ class ClientController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_client_delete', methods: ['POST'])]
+    #[ParamDecryptor(['id'])]
     public function delete(Request $request, Client $client, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$client->getId(), $request->request->get('_token'))) {
@@ -194,6 +199,7 @@ class ClientController extends AbstractController
     }
 
     #[Route('/generatepdf/{id}', name: 'app_client_generate_pdf', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function generatePdf(Client $client, Request $request): Response
     {
         $html = $this->renderView('client/facture.html.twig', [

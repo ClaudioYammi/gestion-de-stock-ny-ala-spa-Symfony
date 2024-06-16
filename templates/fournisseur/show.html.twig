@@ -30,7 +30,7 @@
 
     <a href="{{ path('app_fournisseur_index') }}">back to list</a>
 
-    <a href="{{ path('app_fournisseur_edit', {'id': fournisseur.id}) }}">edit</a>
+    <a href="{{ path('app_fournisseur_edit', {'id': fournisseur.id| nzo_encrypt}) }}">edit</a>
 
     {{ include('fournisseur/_delete_form.html.twig') }}
 {% endblock %}

@@ -71,8 +71,8 @@
                 <td>
                     <div class="d-flex align-items-center">
                         {{ include('achat/_delete_form.html.twig') }}
-                        <a href="{{ path('app_achat_show', {'id': achat.id}) }}" class="btn btn-primary btn-success btn-sm mx-2"><i class="fas fa-fw fa-eye"></i></a>
-                        <a href="{{ path('app_achat_pdf', {'id': achat.id}) }} " class="d-none d-sm-inline-block btn btn-sm btn-secondary">
+                        <a href="{{ path('app_achat_show', {'id': achat.id| nzo_encrypt}) }}" class="btn btn-primary btn-success btn-sm mx-2"><i class="fas fa-fw fa-eye"></i></a>
+                        <a href="{{ path('app_achat_pdf', {'id': achat.id| nzo_encrypt}) }} " class="d-none d-sm-inline-block btn btn-sm btn-secondary">
                             <i class="fas fa-file-invoice"></i>
                         </a>
                     </div>

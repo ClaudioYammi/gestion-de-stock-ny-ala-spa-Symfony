@@ -1,0 +1,4 @@
+nzo_encryptor:
+    secret_key: '%env(NZO_ENCRYPTOR_SECRET)%'
+    secret_iv:  '%env(NZO_ENCRYPTOR_IV)%'
+    cipher_algorithm: 'aes-256-cbc'

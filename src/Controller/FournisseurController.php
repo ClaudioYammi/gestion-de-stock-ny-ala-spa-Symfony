@@ -16,6 +16,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 
 #[Route('/fournisseur')]
 class FournisseurController extends AbstractController
@@ -58,6 +59,7 @@ class FournisseurController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_fournisseur_show', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function show(Fournisseur $fournisseur): Response
     {
         return $this->render('fournisseur/show.html.twig', [
@@ -66,6 +68,7 @@ class FournisseurController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_fournisseur_edit', methods: ['GET', 'POST'])]
+    #[ParamDecryptor(['id'])]
     public function edit(Request $request, Fournisseur $fournisseur, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(FournisseurType::class, $fournisseur);
@@ -85,6 +88,7 @@ class FournisseurController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_fournisseur_delete', methods: ['POST'])]
+    #[ParamDecryptor(['id'])]
     public function delete(Request $request, Fournisseur $fournisseur, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$fournisseur->getId(), $request->request->get('_token'))) {

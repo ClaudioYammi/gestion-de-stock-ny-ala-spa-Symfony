@@ -15,6 +15,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 
 #[Route('/emplacement')]
 class EmplacementController extends AbstractController
@@ -98,6 +99,7 @@ class EmplacementController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_emplacement_show', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function show(Emplacement $emplacement): Response
     {
         return $this->render('emplacement/show.html.twig', [
@@ -106,6 +108,7 @@ class EmplacementController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_emplacement_edit', methods: ['GET', 'POST'])]
+    #[ParamDecryptor(['id'])]
     public function edit(Request $request, Emplacement $emplacement, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(EmplacementType::class, $emplacement);
@@ -125,6 +128,7 @@ class EmplacementController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_emplacement_delete', methods: ['POST'])]
+    #[ParamDecryptor(['id'])]
     public function delete(Request $request, Emplacement $emplacement, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$emplacement->getId(), $request->request->get('_token'))) {

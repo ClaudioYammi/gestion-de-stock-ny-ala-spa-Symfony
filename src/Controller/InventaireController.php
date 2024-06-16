@@ -14,6 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use DateTimeZone;
 use Knp\Component\Pager\PaginatorInterface;
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 
 use Knp\Bundle\SnappyBundle\Snappy\Response\PdfResponse;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -165,6 +166,7 @@ class InventaireController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_inventaire_show', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function show(Inventaire $inventaire): Response
     {
         return $this->render('inventaire/show.html.twig', [
@@ -173,6 +175,7 @@ class InventaireController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_inventaire_edit', methods: ['GET', 'POST'])]
+    #[ParamDecryptor(['id'])]
     public function edit(Request $request, Inventaire $inventaire, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(InventaireType::class, $inventaire);
@@ -191,6 +194,7 @@ class InventaireController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_inventaire_delete', methods: ['POST'])]
+    #[ParamDecryptor(['id'])]
     public function delete(Request $request, Inventaire $inventaire, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$inventaire->getId(), $request->getPayload()->get('_token'))) {

@@ -22,6 +22,9 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 use Knp\Snappy\Pdf;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
+
+
 #[Route('/commande')]
 class CommandeController extends AbstractController
 {
@@ -158,6 +161,7 @@ class CommandeController extends AbstractController
 
 
     #[Route('/{id}', name: 'app_commande_show', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function show(Commande $commande): Response
     {
         return $this->render('commande/show.html.twig', [
@@ -166,6 +170,7 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_commande_edit', methods: ['GET', 'POST'])]
+    #[ParamDecryptor(['id'])]
     public function edit(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(CommandeType::class, $commande);
@@ -184,6 +189,7 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_commande_delete', methods: ['POST'])]
+    #[ParamDecryptor(['id'])]
     public function delete(Request $request, Commande $commande, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$commande->getId(), $request->getPayload()->get('_token'))) {

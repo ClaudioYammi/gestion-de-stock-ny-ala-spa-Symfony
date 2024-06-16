@@ -16,6 +16,7 @@ use Knp\Component\Pager\PaginatorInterface;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 
 #[Route('/ville')]
 class VilleController extends AbstractController
@@ -95,6 +96,7 @@ class VilleController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_ville_show', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function show(Ville $ville): Response
     {
         return $this->render('ville/show.html.twig', [
@@ -103,6 +105,7 @@ class VilleController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_ville_edit', methods: ['GET', 'POST'])]
+    #[ParamDecryptor(['id'])]
     public function edit(Request $request, Ville $ville, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(VilleType::class, $ville);
@@ -122,6 +125,7 @@ class VilleController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_ville_delete', methods: ['POST'])]
+    #[ParamDecryptor(['id'])]
     public function delete(Request $request, Ville $ville, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$ville->getId(), $request->getPayload()->get('_token'))) {

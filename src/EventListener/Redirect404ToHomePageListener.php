@@ -27,7 +27,7 @@ class Redirect404ToHomePageListener extends AbstractController
         $previousUrl = $event->getRequest()->headers->get('referer');
 
         // Si l'URL de la page précédente n'est pas définie ou est vide, redirigez vers la page d'accueil
-        if ($previousUrl === null || $previousUrl === '') {
+        if (empty($previousUrl)) {
             $this->addFlash('error_404', 'La page n\'existe pas ou est inaccessible');
             $previousUrl = $this->router->generate('app_home');
         } else {

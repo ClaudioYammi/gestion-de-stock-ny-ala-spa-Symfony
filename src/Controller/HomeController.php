@@ -18,6 +18,7 @@ use App\Repository\CategorieRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 
 class HomeController extends AbstractController
 {

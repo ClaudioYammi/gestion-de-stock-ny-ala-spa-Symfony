@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\ResponseHeaderBag;
 
 use Knp\Snappy\Pdf;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Nzo\UrlEncryptorBundle\Annotations\ParamDecryptor;
 
 #[Route('/achat')]
 class AchatController extends AbstractController
@@ -148,6 +149,7 @@ class AchatController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_achat_show', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function show(Achat $achat): Response
     {
         return $this->render('achat/show.html.twig', [
@@ -156,6 +158,7 @@ class AchatController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'app_achat_edit', methods: ['GET', 'POST'])]
+    #[ParamDecryptor(['id'])]
     public function edit(Request $request, Achat $achat, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(AchatType::class, $achat);
@@ -175,6 +178,7 @@ class AchatController extends AbstractController
     }
 
     #[Route('/{id}', name: 'app_achat_delete', methods: ['POST'])]
+    #[ParamDecryptor(['id'])]
     public function delete(Request $request, Achat $achat, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$achat->getId(), $request->request->get('_token'))) {
@@ -188,6 +192,7 @@ class AchatController extends AbstractController
     }
 
     #[Route('/export', name: 'export_achats', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function exportachats(AchatRepository $achatRepository)
     {
         $spreadsheet = new Spreadsheet();
@@ -222,6 +227,7 @@ class AchatController extends AbstractController
     }
 
     #[Route('/generatepdf/{id}', name: 'app_achat_pdf', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function generatePdf(Achat $achat,  Request $request): Response
     {
         // Créer un objet DateTime pour la date actuelle
