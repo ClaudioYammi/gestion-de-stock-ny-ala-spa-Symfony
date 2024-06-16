@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html >
 <head>
-<title>Aero Stock</title>
+<title>{% block title %}Aero Stock{% endblock %}</title>
 <link rel="icon" href="{{ asset('icon/icon.png') }}">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="{{ asset('css/fontawesome-free/css/all.min.css') }}">
@@ -17,7 +17,9 @@
 
 {% block javascripts %}
 {% endblock %}
+
 </head>
+
 <body id="page-top">
 {% block login %}
 
