@@ -18,9 +18,13 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_ville_index') }}">back to list</a>
+{% endblock %}
 
-    <a href="{{ path('app_ville_edit', {'id': ville.id}) }}">edit</a>
+{% block widget %}
+    <a href="{{ path('app_ville_index') }}" class="btn btn-dark btn-sm"><i class="fas fa-fw fa-arrow-left mr-2"></i>Retour</a>
+{% endblock %}
 
+{% block widget_droite %}
     {{ include('ville/_delete_form.html.twig') }}
+
 {% endblock %}
