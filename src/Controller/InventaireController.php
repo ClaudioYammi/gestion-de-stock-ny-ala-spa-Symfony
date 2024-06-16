@@ -61,9 +61,21 @@ class InventaireController extends AbstractController
         if ($request->query->has('sort')) {
             $orderBy = [$request->query->get('sort') => $request->query->get('direction', 'ASC')];
         }
-        
+
+        // Recherche entre deux dates
+        $startDate = $request->query->get('start_date');
+        $endDate = $request->query->get('end_date');
+
+        if ($startDate && $endDate) {
+            $startDate = new \DateTime($startDate);
+            $endDate = new \DateTime($endDate);
+            $inventaires = $inventaireRepository->findBetweenDates($startDate, $endDate);
+        } else {
+            $inventaires = $inventaireRepository->findByCriteriaAllowed($searchCriteria, $orderBy);
+        }
+
         $pagination = $paginator->paginate(
-             $inventaireRepository->findByCriteriaAllowed($searchCriteria, $orderBy),
+            $inventaires,
             $request->query->getInt('page', 1),
             8 // Nombre d'éléments par page
         );
@@ -74,6 +86,8 @@ class InventaireController extends AbstractController
             'allowedAttributes' => $allowedAttributes,
             'order' => $order,
             'sort' => $sort,
+            'startDate' => $startDate ? $startDate->format('Y-m-d') : '',
+            'endDate' => $endDate ? $endDate->format('Y-m-d') : '',
         ]);
     }
 

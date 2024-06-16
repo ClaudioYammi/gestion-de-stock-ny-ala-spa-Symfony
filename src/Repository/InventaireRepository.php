@@ -72,6 +72,24 @@ class InventaireRepository extends ServiceEntityRepository
         }
     }
 
+    /**
+     * Finds Inventaires between two dates.
+     *
+     * @param \DateTimeInterface $startDate The start date
+     * @param \DateTimeInterface $endDate   The end date
+     *
+     * @return Inventaire[] An array of Inventaire entities that fall between the two dates
+     */
+    public function findBetweenDates(\DateTimeInterface $startDate, \DateTimeInterface $endDate): array
+    {
+        $qb = $this->createQueryBuilder('i')
+            ->where('i.update_at BETWEEN :startDate AND :endDate')
+            ->setParameter('startDate', $startDate)
+            ->setParameter('endDate', $endDate);
+
+        return $qb->getQuery()->getResult();
+    }
+
     
 
     //    /**
