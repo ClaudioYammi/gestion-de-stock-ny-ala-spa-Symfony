@@ -245,6 +245,7 @@ class CommandeController extends AbstractController
     }
 
     #[Route('/generatepdf/{id}', name: 'app_commande_pdf', methods: ['GET'])]
+    #[ParamDecryptor(['id'])]
     public function generatePdf(Commande $commande, Request $request): Response
     {
         // Créer un objet DateTime pour la date actuelle
