@@ -222,17 +222,29 @@
         return months;
     }
 
+    function formatNumberWithSpaces(number) {
+        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+    }
+
+    let myChart; // Déclare la variable myChart à un niveau global
+
     async function createChart(year) {
         const statistics = await fetchMonthlyStatistics(year);
         const salesData = Object.values(statistics.sales);
         const purchaseData = Object.values(statistics.purchases);
 
-        // Ajouter 'MGA' aux valeurs des données
-        const salesDataWithCurrency = salesData.map(value => `${value} MGA`);
-        const purchaseDataWithCurrency = purchaseData.map(value => `${value} MGA`);
+        // Ajouter des espaces tous les trois chiffres et 'MGA' aux valeurs des données
+        const salesDataWithCurrency = salesData.map(value => `${formatNumberWithSpaces(value)} MGA`);
+        const purchaseDataWithCurrency = purchaseData.map(value => `${formatNumberWithSpaces(value)} MGA`);
 
         const ctx = document.getElementById('monthlyStatisticsChart').getContext('2d');
-        const myChart = new Chart(ctx, {
+
+        // Détruit l'instance existante de myChart si elle existe
+        if (myChart) {
+            myChart.destroy();
+        }
+
+        myChart = new Chart(ctx, {
             type: 'bar',
             data: {
                 labels: getMonthLabels(year),
@@ -259,20 +271,28 @@
                         beginAtZero: true,
                         ticks: {
                             callback: function(value) {
-                                return value + ' MGA';
+                                return formatNumberWithSpaces(value) + ' MGA';
                             }
                         }
                     }
                 },
-                tooltips: {
-                    callbacks: {
-                        label: function(tooltipItem, data) {
-                            const dataset = data.datasets[tooltipItem.datasetIndex];
-                            const datasetLabel = dataset.label || '';
-                            const dataValue = dataset.data[tooltipItem.index];
-                            return datasetLabel + ': ' + dataValue + ' MGA';
+                plugins: {
+                    tooltip: {
+                        callbacks: {
+                            label: function(tooltipItem) {
+                                const datasetLabel = tooltipItem.dataset.label || '';
+                                const dataValue = tooltipItem.raw;
+                                return datasetLabel + ': ' + formatNumberWithSpaces(dataValue) + ' MGA';
+                            }
                         }
                     }
+                },
+                interaction: {
+                    mode: 'index',
+                    intersect: false,
+                },
+                animation: {
+                    duration: 0, // Désactive l'animation pour éviter les bugs
                 }
             }
         });
@@ -286,6 +306,8 @@
     // Initial load
     createChart(new Date().getFullYear());
 </script>
+
+
 
                 </div>
             </div> 
