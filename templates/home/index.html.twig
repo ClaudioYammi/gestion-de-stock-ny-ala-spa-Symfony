@@ -195,132 +195,129 @@
         <div class="col-lg-6 mb-4">
             <!-- Project Card Example -->
             <div class="card  mb-4">
+            <div class="card border-left-primary  h-100 py-2">
+            
             <div class="text-xs font-weight-bold text-secondary text-uppercase m-2">
                                     Statistique Achat & Vente</div>
                 <div class="card-body">
-                
-                    <canvas id="monthlyStatisticsChart" width="400" height="200"></canvas>
-                    
-                    <select id="yearSelector" class="form-select form-select-sm mt-2">
-                        {% for year in 2021..2060 %}
-                            <option value="{{ year }}">{{ year }}</option>
-                        {% endfor %}
-                    </select>
+        
+    <canvas id="monthlyStatisticsChart" width="400" height="200"></canvas>
 
-                    <script>
-    async function fetchMonthlyStatistics(year) {
-        const response = await fetch(`/api/monthly-statistics?year=${year}`);
-        const data = await response.json();
-        return data;
-    }
+    <select id="yearSelector" class="form-select form-select-sm mt-2">
+        {% for year in 2021..2060 %}
+            <option value="{{ year }}">{{ year }}</option>
+        {% endfor %}
+    </select>
 
-    function getMonthLabels(year) {
-        const months = [];
-        for (let month = 1; month <= 12; month++) {
-            months.push(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
-        }
-        return months;
-    }
-
-    function formatNumberWithSpaces(number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
-    }
-
-    let myChart; // Déclare la variable myChart à un niveau global
-
-    async function createChart(year) {
-        const statistics = await fetchMonthlyStatistics(year);
-        const salesData = Object.values(statistics.sales);
-        const purchaseData = Object.values(statistics.purchases);
-
-        // Ajouter des espaces tous les trois chiffres et 'MGA' aux valeurs des données
-        const salesDataWithCurrency = salesData.map(value => `${formatNumberWithSpaces(value)} MGA`);
-        const purchaseDataWithCurrency = purchaseData.map(value => `${formatNumberWithSpaces(value)} MGA`);
-
-        const ctx = document.getElementById('monthlyStatisticsChart').getContext('2d');
-
-        // Détruit l'instance existante de myChart si elle existe
-        if (myChart) {
-            myChart.destroy();
+    <script>
+        async function fetchMonthlyStatistics(year) {
+            const response = await fetch(`/api/monthly-statistics?year=${year}`);
+            const data = await response.json();
+            return data;
         }
 
-        myChart = new Chart(ctx, {
-            type: 'bar',
-            data: {
-                labels: getMonthLabels(year),
-                datasets: [
-                    {
-                        label: 'Ventes (MGA)',
-                        data: salesData,
-                        backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                        borderColor: 'rgba(75, 192, 192, 1)',
-                        borderWidth: 1
-                    },
-                    {
-                        label: 'Achats (MGA)',
-                        data: purchaseData,
-                        backgroundColor: 'rgba(153, 102, 255, 0.2)',
-                        borderColor: 'rgba(153, 102, 255, 1)',
-                        borderWidth: 1
-                    }
-                ]
-            },
-            options: {
-                scales: {
-                    y: {
-                        beginAtZero: true,
-                        ticks: {
-                            callback: function(value) {
-                                return formatNumberWithSpaces(value) + ' MGA';
-                            }
-                        }
-                    }
-                },
-                plugins: {
-                    tooltip: {
-                        callbacks: {
-                            label: function(tooltipItem) {
-                                const datasetLabel = tooltipItem.dataset.label || '';
-                                const dataValue = tooltipItem.raw;
-                                return datasetLabel + ': ' + formatNumberWithSpaces(dataValue) + ' MGA';
-                            }
-                        }
-                    }
-                },
-                interaction: {
-                    mode: 'index',
-                    intersect: false,
-                },
-                animation: {
-                    duration: 0, // Désactive l'animation pour éviter les bugs
-                }
+        function getMonthLabels(year) {
+            const months = [];
+            for (let month = 1; month <= 12; month++) {
+                months.push(new Date(year, month - 1).toLocaleString('default', { month: 'long' }));
             }
+            return months;
+        }
+
+        function formatNumberWithSpaces(number) {
+            return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+        }
+
+        async function createChart(year) {
+            const statistics = await fetchMonthlyStatistics(year);
+            const salesData = Object.values(statistics.sales);
+            const purchaseData = Object.values(statistics.purchases);
+            const totalSales = salesData.reduce((acc, cur) => acc + cur, 0);
+            const totalPurchases = purchaseData.reduce((acc, cur) => acc + cur, 0);
+
+            // Update total sales display
+            document.getElementById('totalSales').textContent = ` ${formatNumberWithSpaces(totalSales)} MGA`;
+
+            // Update total purchases display
+            document.getElementById('totalPurchases').textContent = ` ${formatNumberWithSpaces(totalPurchases)} MGA`;
+
+            const ctx = document.getElementById('monthlyStatisticsChart').getContext('2d');
+            const myChart = new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: getMonthLabels(year),
+                    datasets: [
+                        {
+                            label: 'Ventes (MGA)',
+                            data: salesData,
+                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                            borderColor: 'rgba(75, 192, 192, 1)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Achats (MGA)',
+                            data: purchaseData,
+                            backgroundColor: 'rgba(153, 102, 255, 0.2)',
+                            borderColor: 'rgba(153, 102, 255, 1)',
+                            borderWidth: 1
+                        }
+                    ]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                callback: function(value) {
+                                    return value + ' MGA';
+                                }
+                            }
+                        }
+                    },
+                    tooltips: {
+                        callbacks: {
+                            label: function(tooltipItem, data) {
+                                const dataset = data.datasets[tooltipItem.datasetIndex];
+                                const datasetLabel = dataset.label || '';
+                                const dataValue = dataset.data[tooltipItem.index];
+                                return datasetLabel + ': ' + dataValue + ' MGA';
+                            }
+                        }
+                    }
+                }
+            });
+        }
+
+        document.getElementById('yearSelector').addEventListener('change', function() {
+            const selectedYear = this.value;
+            createChart(selectedYear);
         });
-    }
 
-    document.getElementById('yearSelector').addEventListener('change', function() {
-        const selectedYear = this.value;
-        createChart(selectedYear);
-    });
-
-    // Initial load
-    createChart(new Date().getFullYear());
-</script>
-
-
+        // Initial load
+        createChart(new Date().getFullYear());
+    </script>
 
                 </div>
+            </div> 
             </div> 
         </div>
         <div class="col-lg-6 mb-4">
             <!-- Project Card Example -->
             <div class="card  mb-4">
+            <div class="card border-left-primary  h-100 py-2">
                 <div class="text-xs font-weight-bold text-secondary text-uppercase m-2">
                                         Statistique Achat & Vente</div>
-                    <div class="card-body">
-                    
+                    <div class="card-body ">
+                        <div class=" d-flex">
+                            <label class=" font-weight-bold text-success text-uppercase mx-3"><strong>Achat : </strong></label><h5 id="totalPurchases"></h5>
+                        </div>
+                        
+                        <div class=" d-flex">
+                            <label class=" font-weight-bold text-danger text-uppercase mx-3"><strong>Vente : </strong></label><h5 id="totalSales"></h5>
                     </div>
                 </div>
+                </div>
+            </div>
             </div>
         </div>
     
