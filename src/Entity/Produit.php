@@ -81,6 +81,9 @@ class Produit
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $prixunitairevente = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $reference_produit = null;
     
     public function __construct()
     {
@@ -452,6 +455,18 @@ class Produit
     public function setPrixunitairevente(string $prixunitairevente): static
     {
         $this->prixunitairevente = $prixunitairevente;
+
+        return $this;
+    }
+
+    public function getReferenceProduit(): ?string
+    {
+        return $this->reference_produit;
+    }
+
+    public function setReferenceProduit(?string $reference_produit): static
+    {
+        $this->reference_produit = $reference_produit;
 
         return $this;
     }

@@ -166,8 +166,17 @@ class ProduitType extends AbstractType
                     'Millilitres' => 'ml',
                 ],
                 'attr' => ['class' => 'form-select'],
-            ]
-        );
+            ])
+
+            ->add('referenceproduit', null, [
+                'label' => 'Reference',
+                'constraints' => [
+                    new NotBlank(['message' => 'Veuillez entrer une désignation.']),
+                ],
+                'attr' => [
+                    'placeholder' => 'Reference du Produit',
+                ],
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver): void

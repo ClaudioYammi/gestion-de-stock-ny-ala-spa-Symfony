@@ -1,76 +1,130 @@
 {{ form_start(form) }}
+
+<div class="container">
+    <!-- Section 1: Informations sur le produit -->
+    <h3 class="mt-4">Informations sur le produit</h3>
+    <hr>
     <div class="row m-3">
         <div class="col-md-2">
-            <label>Image du produit</label>
-            {{ form_widget(form.imageFile) }}
-            {{ form_errors(form.imageFile) }}
+            <div class="form-group">
+                <label>Image du produit</label>
+                {{ form_widget(form.imageFile, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.imageFile) }}
+            </div>
         </div>
         <div class="col-md-2">
-            <label>Désignation</label>
-            {{ form_widget(form.designation) }}
-            {{ form_errors(form.designation) }}
+            <div class="form-group">
+                <label>Désignation</label>
+                {{ form_widget(form.designation, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.designation) }}
+            </div>
         </div>
         <div class="col-md-4">
-            <label>Description</label>
-            {{ form_widget(form.description) }}
-            {{ form_errors(form.description) }}
+            <div class="form-group">
+                <label>Description</label>
+                {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.description) }}
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label>Référence</label>
+                {{ form_widget(form.referenceproduit, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.referenceproduit) }}
+            </div>
         </div>
         <div class="col-md-2">
-            <label>Capaciter</label>
-            {{ form_widget(form.capaciter) }}
-            {{ form_errors(form.capaciter) }}
+            <div class="form-group">
+                <label>Capacité</label>
+                {{ form_widget(form.capaciter, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.capaciter) }}
+            </div>
         </div>
         <div class="col-md-2">
-            <label>Uniter</label>
-            {{ form_widget(form.unite) }}
-            {{ form_errors(form.unite) }}
+            <div class="form-group">
+                <label>Unité</label>
+                {{ form_widget(form.unite, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.unite) }}
+            </div>
         </div>
     </div>
+
+    <!-- Section 2: Tarification -->
+    <h3 class="mt-4">Tarification</h3>
+    <hr>
     <div class="row m-3">
         <div class="col-md">
-            <label>Catégorie</label>
-            {{ form_widget(form.idCategorie) }}
-            {{ form_errors(form.idCategorie) }}
+            <div class="form-group">
+                <label>Catégorie</label>
+                {{ form_widget(form.idCategorie, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.idCategorie) }}
+            </div>
         </div>
         <div class="col-md">
-            <label>Prix unitaire (Ariary)</label>
-            {{ form_widget(form.prixunitaire) }}
-            {{ form_errors(form.prixunitaire) }}
+            <div class="form-group">
+                <label>Prix unitaire (Ariary)</label>
+                {{ form_widget(form.prixunitaire, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.prixunitaire) }}
+            </div>
         </div>
         <div class="col-md">
-            <label>Prix de vente (Ariary) </label>
-            {{ form_widget(form.prixunitairevente) }}
-            {{ form_errors(form.prixunitairevente) }}
-        </div>
-        <div class="col-md">
-            <label>Date d'expiration</label>
-            {{ form_widget(form.dateexp) }}
-            {{ form_errors(form.dateexp) }}
-        </div>
-        <div class="col-md">
-            <label>Emplacement du produit</label>
-            {{ form_widget(form.emplacement) }}
-            {{ form_errors(form.emplacement) }}
+            <div class="form-group">
+                <label>Prix de vente (Ariary)</label>
+                {{ form_widget(form.prixunitairevente, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.prixunitairevente) }}
+            </div>
         </div>
     </div>
-    
+
+    <!-- Section 3: Informations supplémentaires -->
+    <h3 class="mt-4">Informations supplémentaires</h3>
+    <hr>
     <div class="row m-3">
         <div class="col-md">
-            <label for="{{ form.qttemin.vars.id }}">Quantité minimale</label>
-            {{ form_widget(form.qttemin) }}
-            {{ form_errors(form.qttemin) }}
+            <div class="form-group">
+                <label>Date d'expiration</label>
+                {{ form_widget(form.dateexp, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.dateexp) }}
+            </div>
         </div>
         <div class="col-md">
-            <label for="{{ form.qttemax.vars.id }}">Quantité maximale</label>
-            {{ form_widget(form.qttemax) }}
-            {{ form_errors(form.qttemax) }}
+            <div class="form-group">
+                <label>Emplacement du produit</label>
+                {{ form_widget(form.emplacement, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.emplacement) }}
+            </div>
         </div>
     </div>
+
+    <!-- Section 4: Quantités -->
+    <h3 class="mt-4">Quantités</h3>
+    <hr>
     <div class="row m-3">
         <div class="col-md">
-            <button class="btn btn-primary btn-sm "><i class="fas fa-fw fa-save mr-1"></i>
+            <div class="form-group">
+                <label for="{{ form.qttemin.vars.id }}">Quantité minimale</label>
+                {{ form_widget(form.qttemin, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.qttemin) }}
+            </div>
+        </div>
+        <div class="col-md">
+            <div class="form-group">
+                <label for="{{ form.qttemax.vars.id }}">Quantité maximale</label>
+                {{ form_widget(form.qttemax, {'attr': {'class': 'form-control'}}) }}
+                {{ form_errors(form.qttemax) }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Section 5: Soumission -->
+    <div class="row m-3">
+        <div class="col-md">
+            <button class="btn btn-primary btn-sm">
+                <i class="fas fa-fw fa-save mr-1"></i>
                 {{ button_label|default('Enregistrer') }}
             </button>
         </div>
     </div>
+</div>
+
 {{ form_end(form) }}
