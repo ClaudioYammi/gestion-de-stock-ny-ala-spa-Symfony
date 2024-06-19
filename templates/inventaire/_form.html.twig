@@ -5,11 +5,6 @@
                 {{ form_widget(form.update_at) }}
                 {{ form_errors(form.update_at) }}
         </div>
-        <div class="col-2">
-            <label>Désignation</label>
-                {{ form_widget(form.note) }}
-                {{ form_errors(form.note) }}
-        </div>
         <div class="col-4">
             <label>Description</label>
                 {{ form_widget(form.reference) }}
@@ -24,8 +19,25 @@
             <label>Capaciter</label>
                 {{ form_widget(form.stockinventaire) }}
                 {{ form_errors(form.stockinventaire) }}
+             </div>
         </div>
-    </div>
+        <div class="row m-3">
+            <label class="form-label">Note</label>
+            <div class="col-md-3 mb-3">
+                {% if inventaire.calculerEcart() is not null %}
+                    {% if inventaire.calculerEcart() < 0 %}
+                        <button class="btn btn-danger btn-sm w-100">Écart négatif</button>
+                    {% else %}
+                        <button class="btn btn-success btn-sm w-100">Écart positif</button>
+                    {% endif %}
+                {% endif %}
+            </div>
+            <div class="col-md-9">
+                {{ form_widget(form.note, {'attr': {'class': 'form-control', 'rows': '5'}}) }}
+                {{ form_errors(form.note) }}
+            </div>
+        </div>
+        
     <div class="row m-3">
         <div class="col">
             <button class="btn btn-primary btn-sm "><i class="fas fa-fw fa-save mr-1"></i>

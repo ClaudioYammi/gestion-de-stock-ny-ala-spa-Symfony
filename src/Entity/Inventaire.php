@@ -18,6 +18,7 @@ class Inventaire
     private ?\DateTimeInterface $update_at = null;
 
     #[ORM\Column(length: 255)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?string $note = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 0)]
