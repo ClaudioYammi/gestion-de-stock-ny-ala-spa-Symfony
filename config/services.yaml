@@ -5,17 +5,19 @@
 # https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
 parameters:
 
+# Chemin : config/services.yaml
+
 services:
-    # default configuration for services in *this* file
+    # Configuration par défaut pour les services dans ce fichier
     _defaults:
-        autowire: true      # Automatically injects dependencies in your services.
-        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
-    # makes classes in src/ available to be used as services
-    # this creates a service per class whose id is the fully-qualified class name
-        # App\Entity\Achat:
-        # public: true
+        autowire: true       # Injection automatique des dépendances dans vos services.
+        autoconfigure: true  # Enregistrement automatique de vos services en tant que commandes, abonnés d'événements, etc.
+
+    # Déclaration des services spécifiques
     App\Service\NumberToWordsConverter:
         public: true
+
+    # Configuration de la recherche des services dans le répertoire src/
     App\:
         resource: '../src/'
         exclude:
@@ -23,8 +25,9 @@ services:
             - '../src/Entity/'
             - '../src/Kernel.php'
 
+    # Déclaration de l'écouteur d'événements Redirect404ToHomePageListener
     App\EventListener\Redirect404ToHomePageListener:
         tags:
             - { name: kernel.event_listener, event: kernel.exception }
-    # add more service definitions when explicit configuration is needed
-    # please note that last definitions always *replace* previous ones
+
+    
